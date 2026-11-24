@@ -113,7 +113,12 @@ test('phone: menu opens, and a menu link closes it and scrolls', async b => {
   await nav.locator('a[href="#prices"]').click();
   assert.equal(await burger.getAttribute('aria-expanded'), 'false');
   // Smooth scrolling ends with the section just under the sticky header.
-  await page.waitForFunction(() => Math.abs(document.querySelector('#prices').getBoundingClientRect().top) < 120, null, { timeout: 6000 }).catch(() => {});
+  // Wait until the section is near the top AND has stopped moving.
+  await page.waitForFunction(() => {
+    const top = Math.round(document.querySelector('#prices').getBoundingClientRect().top);
+    const still = top === window.__lastTop; window.__lastTop = top;
+    return still && Math.abs(top) < 120;
+  }, null, { timeout: 6000, polling: 100 }).catch(() => {});
   const top = await page.$eval('#prices', el => Math.round(el.getBoundingClientRect().top));
   assert.ok(Math.abs(top) < 120, `prices section top at ${top}`);
 });
