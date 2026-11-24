@@ -57,9 +57,9 @@ select.chip{appearance:none;padding-right:30px;background:#fff url("data:image/s
 .cars{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
 .car{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:.15s}
 .car:hover{box-shadow:0 18px 40px rgba(17,20,24,.08)}
-.car .img{height:180px;display:grid;place-items:center;position:relative}
+.car .img{height:200px;overflow:hidden;display:grid;place-items:center;position:relative}
 .car .img svg{width:78%}
-.car .badge{position:absolute;left:12px;top:12px;background:#fff;border-radius:8px;padding:4px 9px;font-size:12px;font-weight:600}
+.car .badge{z-index:1;position:absolute;left:12px;top:12px;background:#fff;border-radius:8px;padding:4px 9px;font-size:12px;font-weight:600}
 .car .badge.hot{background:var(--acc);color:#fff}
 .car .bd{padding:18px;display:flex;flex-direction:column;flex:1}
 .car h3{font-size:18px;margin-bottom:4px}
@@ -166,8 +166,10 @@ footer{padding:30px 0;color:var(--muted);font-size:13px;text-align:center}
 <div class="toast" id="toast"></div>
 
 <script>
-const BRANDS={"Geely":"#1f4e9c","Chery":"#b3122b","Haval":"#0f0f10","Changan":"#1c5fb8","Li Auto":"#2b2b2b","Zeekr":"#3a3a3a","BYD":"#c8102e","Exeed":"#5a4632","Tank":"#4b5320","Omoda":"#8a8f98"};
+const BRANDS={"Geely":"#1f4e9c","Chery":"#b3122b","Haval":"#0f0f10","Changan":"#1c5fb8","Li Auto":"#2b2b2b","Zeekr":"#3a3a3a","BYD":"#c8102e","Exeed":"#5a4632","Tank":"#4b5320","Omoda":"#8a8f98","Jetour":"#6b7a99","Lexus":"#2a2d33"};
 const DEFAULT=[
+ {b:"Jetour",m:"Dashing",y:2025,t:"Кроссовер",e:"1.6T бензин, 186 л.с.",p:2790000,hot:1,img:"img/jetour-dashing.jpg"},
+ {b:"Lexus",m:"LX 570",y:2021,t:"Внедорожник",e:"5.7 V8 бензин, 367 л.с.",p:9900000,hot:1,img:"img/lexus-lx570.jpg"},
  {b:"Geely",m:"Monjaro",y:2025,t:"Кроссовер",e:"2.0T бензин, 238 л.с.",p:3890000,hot:1},
  {b:"Geely",m:"Coolray",y:2025,t:"Кроссовер",e:"1.5T бензин, 177 л.с.",p:2190000},
  {b:"Chery",m:"Tiggo 7 Pro Max",y:2025,t:"Кроссовер",e:"1.6T бензин, 186 л.с.",p:2550000},
@@ -183,13 +185,14 @@ const DEFAULT=[
  {b:"Tank",m:"300",y:2025,t:"Внедорожник",e:"2.0T бензин, 220 л.с.",p:4590000},
  {b:"Omoda",m:"C5",y:2025,t:"Кроссовер",e:"1.5T бензин, 147 л.с.",p:1990000},
 ];
-let CARS=JSON.parse(localStorage.getItem("cars")||"null")||DEFAULT;
-const save=()=>localStorage.setItem("cars",JSON.stringify(CARS));
+let CARS=JSON.parse(localStorage.getItem("cars_v2")||"null")||DEFAULT;
+const save=()=>localStorage.setItem("cars_v2",JSON.stringify(CARS));
 const fmt=n=>n.toLocaleString("ru-RU")+" ₽";
 const carSvg=c=>`<svg viewBox="0 0 300 120"><ellipse cx="150" cy="108" rx="130" ry="8" fill="rgba(0,0,0,.18)"/><path d="M20 82 Q22 60 60 56 L95 34 Q110 26 135 26 L190 26 Q215 27 232 44 L250 58 Q282 62 284 82 L284 92 L20 92Z" fill="${c}"/><path d="M104 40 Q112 33 130 33 L150 33 L150 56 L84 56Z M158 33 L188 33 Q208 34 222 50 L226 56 L158 56Z" fill="rgba(255,255,255,.55)"/><circle cx="75" cy="92" r="17" fill="#15171b"/><circle cx="75" cy="92" r="7" fill="#9aa0a8"/><circle cx="228" cy="92" r="17" fill="#15171b"/><circle cx="228" cy="92" r="7" fill="#9aa0a8"/></svg>`;
+const pic=c=>c.img?`<img src="${c.img}" alt="${c.b} ${c.m}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">`:carSvg(BRANDS[c.b]||"#555");
 const bg=c=>`linear-gradient(160deg,#f7f8fa,#e3e6eb)`;
 
-function card(c,i){return `<div class="car"><div class="img" style="background:${bg()}">${c.hot?'<span class="badge hot">Хит</span>':`<span class="badge">${c.y}</span>`}${carSvg(BRANDS[c.b]||"#555")}</div>
+function card(c,i){return `<div class="car"><div class="img" style="background:${bg()}">${c.hot?'<span class="badge hot">Хит</span>':`<span class="badge">${c.y}</span>`}${pic(c)}</div>
  <div class="bd"><h3>${c.b} ${c.m}</h3><div class="spec">${c.t} · ${c.e}</div><div class="price">${fmt(c.p)}</div><div class="pn">под ключ, с растаможкой</div>
  <div class="acts"><button class="btn btn-ghost" onclick="detail(${i})">Подробнее</button><button class="btn btn-acc" onclick="order(${i})">Заявка</button></div></div></div>`}
 
@@ -214,7 +217,7 @@ function go(p,b){document.getElementById("home").style.display=p==="home"?"":"no
 
 function openM(t,h){document.getElementById("mT").textContent=t;document.getElementById("mB").innerHTML=h;document.getElementById("m").classList.add("open")}
 function closeM(){document.getElementById("m").classList.remove("open")}
-function detail(i){const c=CARS[i];openM(`${c.b} ${c.m}`,`<div class="det"><div class="img" style="background:${bg()}">${carSvg(BRANDS[c.b]||"#555")}</div><div>
+function detail(i){const c=CARS[i];openM(`${c.b} ${c.m}`,`<div class="det"><div class="img" style="background:${bg()};position:relative;overflow:hidden">${pic(c)}</div><div>
  <div class="price h" style="font-size:24px">${fmt(c.p)}</div><div style="color:var(--muted);font-size:13px">под ключ в вашем городе</div>
  <table class="tbl"><tr><td>Год</td><td>${c.y}</td></tr><tr><td>Кузов</td><td>${c.t}</td></tr><tr><td>Двигатель</td><td>${c.e}</td></tr><tr><td>Срок доставки</td><td>30–45 дней</td></tr></table>
  <button class="btn btn-acc" style="width:100%" onclick="order(${i})">Оставить заявку</button></div></div>`)}
