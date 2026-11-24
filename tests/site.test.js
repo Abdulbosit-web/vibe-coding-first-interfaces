@@ -39,6 +39,21 @@ const SITES = [{
     'Мужской маникюр, профи-мастер': '2 000 ₽',
     'Система восстановления и укрепления повреждённых ногтей, топ-мастер': '2 500 ₽',
   },
+}, {
+  page: file('beauty-vibe/index.html'),
+  name: /Beauty Vibe/,
+  mapText: /Краснодар, Восточно-Кругликовская улица, 22\/3/,
+  phoneHref: null, // only part of the number is visible on DIKIDI: no call links
+  bookingUrl: 'https://dikidi.net/1903464',
+  address: 'Восточно-Кругликовская улица, 22/3',
+  hours: null, // working hours are not confirmed
+  prices: {
+    'Smart-педикюр: обработка всей стопы + покрытие': 'от 2 500 ₽',
+    'Smart-педикюр: обработка всей стопы, без покрытия': 'от 2 000 ₽',
+    'Втирка': 'от 300 ₽',
+    'Дизайн: омбре / градиент': '500 ₽',
+    'Дизайн: стемпинг': '300 ₽',
+  },
 }];
 
 const tests = [];
@@ -72,11 +87,12 @@ test('SEO: title, description, Open Graph, one h1', async b => {
 test('every phone link calls the confirmed number', async b => {
   const { page } = await open(b, PHONE);
   const hrefs = await page.$$eval('a[href^="tel:"]', a => a.map(x => x.getAttribute('href')));
+  if (!FACTS.phoneHref) return assert.deepEqual(hrefs, [], 'number not confirmed: no call links');
   assert.ok(hrefs.length >= 3, 'expected phone links in hero, contacts and sticky bar');
   for (const h of hrefs) assert.equal(h, FACTS.phoneHref);
 });
 
-test('every booking button opens the YCLIENTS page in a new tab', async b => {
+test('every booking button opens the online booking page in a new tab', async b => {
   const { page } = await open(b, DESKTOP);
   const links = await page.$$eval('a[data-book]', a => a.map(x => [x.href, x.target, x.rel]));
   assert.ok(links.length >= 6, 'hero, every service card and contacts need a booking button');
@@ -91,7 +107,7 @@ test('address and hours are shown', async b => {
   const { page } = await open(b, DESKTOP);
   const text = await page.innerText('body');
   assert.ok(text.includes(FACTS.address));
-  assert.ok(text.includes(FACTS.hours));
+  if (FACTS.hours) assert.ok(text.includes(FACTS.hours));
 });
 
 test('price list shows exactly the confirmed prices', async b => {
