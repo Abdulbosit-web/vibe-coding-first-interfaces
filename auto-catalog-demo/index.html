@@ -42,7 +42,7 @@ section{padding:56px 0}
 .sec-h h2{font-size:clamp(24px,3.5vw,34px)}
 .crumbs{font-size:14px;color:var(--muted);margin-bottom:10px}.crumbs a{cursor:pointer;color:var(--acc)}
 
-.brands{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.brands{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
 .brand{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 12px;text-align:center;cursor:pointer;transition:.15s}
 .brand:hover{border-color:var(--acc);transform:translateY(-2px)}
 .brand .bl{width:54px;height:54px;border-radius:50%;margin:0 auto 10px;display:grid;place-items:center;color:#fff;font-family:Unbounded;font-weight:700;font-size:15px}
@@ -124,7 +124,7 @@ footer{padding:30px 0;color:var(--muted);font-size:13px;text-align:center}
     <h1 class="h">Авто из Китая под ключ — с ценой до рубля</h1>
     <p>Подберём, проверим и привезём автомобиль. Цена в каталоге уже с доставкой, растаможкой и утильсбором.</p>
     <div class="row"><button class="btn btn-acc" onclick="go('catalog')">Открыть каталог</button><a class="btn btn-ghost" href="#lead">Получить подбор</a></div>
-    <div class="adv"><div><b>от 30 дней</b><span>срок доставки</span></div><div><b>0 ₽</b><span>скрытых платежей</span></div><div><b>10+</b><span>марок в каталоге</span></div><div><b>100%</b><span>проверка перед отправкой</span></div></div>
+    <div class="adv"><div><b>от 30 дней</b><span>срок доставки</span></div><div><b>0 ₽</b><span>скрытых платежей</span></div><div><b>5+</b><span>марок в каталоге</span></div><div><b>100%</b><span>проверка перед отправкой</span></div></div>
   </div></div>
   <section><div class="wrap">
     <div class="sec-h"><h2 class="h">Выберите марку</h2><a class="chip" onclick="go('catalog')">Все модели →</a></div>
@@ -166,30 +166,19 @@ footer{padding:30px 0;color:var(--muted);font-size:13px;text-align:center}
 <div class="toast" id="toast"></div>
 
 <script>
-const BRANDS={"Geely":"#1f4e9c","Chery":"#b3122b","Haval":"#0f0f10","Changan":"#1c5fb8","Li Auto":"#2b2b2b","Zeekr":"#3a3a3a","BYD":"#c8102e","Exeed":"#5a4632","Tank":"#4b5320","Omoda":"#8a8f98","Jetour":"#6b7a99","Lexus":"#2a2d33"};
+const BRANDS={"Chery":"#b3122b","Jetour":"#6b7a99","Toyota":"#c00","BMW":"#1c69d4","Lexus":"#2a2d33"};
 const DEFAULT=[
+ {b:"Chery",m:"Tiggo 8 Pro Max",y:2025,t:"Кроссовер",e:"2.0T бензин, 249 л.с.",p:3290000,hot:1,img:"img/chery-tiggo8.jpg"},
  {b:"Jetour",m:"Dashing",y:2025,t:"Кроссовер",e:"1.6T бензин, 186 л.с.",p:2790000,hot:1,img:"img/jetour-dashing.jpg"},
- {b:"Lexus",m:"LX 570",y:2021,t:"Внедорожник",e:"5.7 V8 бензин, 367 л.с.",p:9900000,hot:1,img:"img/lexus-lx570.jpg"},
- {b:"Geely",m:"Monjaro",y:2025,t:"Кроссовер",e:"2.0T бензин, 238 л.с.",p:3890000,hot:1},
- {b:"Geely",m:"Coolray",y:2025,t:"Кроссовер",e:"1.5T бензин, 177 л.с.",p:2190000},
- {b:"Chery",m:"Tiggo 7 Pro Max",y:2025,t:"Кроссовер",e:"1.6T бензин, 186 л.с.",p:2550000},
- {b:"Chery",m:"Tiggo 8 Pro Max",y:2025,t:"Кроссовер",e:"2.0T бензин, 249 л.с.",p:3290000},
- {b:"Haval",m:"Jolion",y:2025,t:"Кроссовер",e:"1.5T бензин, 150 л.с.",p:2090000,hot:1},
- {b:"Haval",m:"H6",y:2025,t:"Кроссовер",e:"1.5T гибрид, 243 л.с.",p:3150000},
- {b:"Changan",m:"UNI-K",y:2025,t:"Кроссовер",e:"2.0T бензин, 233 л.с.",p:3490000},
- {b:"Li Auto",m:"L7",y:2025,t:"Кроссовер",e:"EREV гибрид, 449 л.с.",p:5490000,hot:1},
- {b:"Li Auto",m:"L9",y:2025,t:"Кроссовер",e:"EREV гибрид, 449 л.с.",p:6790000},
- {b:"Zeekr",m:"001",y:2025,t:"Лифтбек",e:"Электро, 544 л.с.",p:5190000},
- {b:"BYD",m:"Song Plus",y:2025,t:"Кроссовер",e:"DM-i гибрид, 218 л.с.",p:3050000},
- {b:"Exeed",m:"RX",y:2025,t:"Кроссовер",e:"2.0T бензин, 249 л.с.",p:4190000},
- {b:"Tank",m:"300",y:2025,t:"Внедорожник",e:"2.0T бензин, 220 л.с.",p:4590000},
- {b:"Omoda",m:"C5",y:2025,t:"Кроссовер",e:"1.5T бензин, 147 л.с.",p:1990000},
+ {b:"Toyota",m:"Camry",y:2024,t:"Седан",e:"2.5 бензин, 200 л.с.",p:3590000,hot:1,img:"img/toyota-camry.jpg"},
+ {b:"BMW",m:"X6",y:2022,t:"Кроссовер",e:"3.0 бензин, 340 л.с.",p:8490000,img:"img/bmw-x6.jpg"},
+ {b:"Lexus",m:"LX 570",y:2021,t:"Внедорожник",e:"5.7 V8 бензин, 367 л.с.",p:9900000,img:"img/lexus-lx570.jpg"},
 ];
-let CARS=JSON.parse(localStorage.getItem("cars_v2")||"null")||DEFAULT;
-const save=()=>localStorage.setItem("cars_v2",JSON.stringify(CARS));
+let CARS=JSON.parse(localStorage.getItem("cars_v3")||"null")||DEFAULT;
+const save=()=>localStorage.setItem("cars_v3",JSON.stringify(CARS));
 const fmt=n=>n.toLocaleString("ru-RU")+" ₽";
 const carSvg=c=>`<svg viewBox="0 0 300 120"><ellipse cx="150" cy="108" rx="130" ry="8" fill="rgba(0,0,0,.18)"/><path d="M20 82 Q22 60 60 56 L95 34 Q110 26 135 26 L190 26 Q215 27 232 44 L250 58 Q282 62 284 82 L284 92 L20 92Z" fill="${c}"/><path d="M104 40 Q112 33 130 33 L150 33 L150 56 L84 56Z M158 33 L188 33 Q208 34 222 50 L226 56 L158 56Z" fill="rgba(255,255,255,.55)"/><circle cx="75" cy="92" r="17" fill="#15171b"/><circle cx="75" cy="92" r="7" fill="#9aa0a8"/><circle cx="228" cy="92" r="17" fill="#15171b"/><circle cx="228" cy="92" r="7" fill="#9aa0a8"/></svg>`;
-const pic=c=>c.img?`<img src="${c.img}" alt="${c.b} ${c.m}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">`:carSvg(BRANDS[c.b]||"#555");
+const pic=c=>c.img?`<img src="${c.img}" alt="${c.b} ${c.m}" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover">`:`<div style="color:#9aa1ab;font-size:14px">Фото скоро</div>`;
 const bg=c=>`linear-gradient(160deg,#f7f8fa,#e3e6eb)`;
 
 function card(c,i){return `<div class="car"><div class="img" style="background:${bg()}">${c.hot?'<span class="badge hot">Хит</span>':`<span class="badge">${c.y}</span>`}${pic(c)}</div>
@@ -230,12 +219,14 @@ function openAdmin(){
    <div><label>Модель</label><input class="inp" name="m" required placeholder="напр. Atlas"></div>
    <div><label>Цена под ключ, ₽</label><input class="inp" name="p" type="number" required placeholder="2500000"></div>
    <div><label>Кузов</label><select class="inp" name="t"><option>Кроссовер</option><option>Седан</option><option>Внедорожник</option><option>Лифтбек</option><option>Минивэн</option></select></div>
+   <div class="full"><label>Фото</label><input class="inp" type="file" name="img" accept="image/*"></div>
    <div class="full"><label>Двигатель</label><input class="inp" name="e" placeholder="1.5T бензин, 150 л.с."></div>
    <label class="full" style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--ink)"><input type="checkbox" name="hot"> Показывать в «Хитах продаж»</label>
    <button class="btn btn-dark full">+ Добавить модель</button></form>
-  <div class="alist">${CARS.map((c,i)=>`<div class="arow"><div class="sw" style="background:${BRANDS[c.b]}"></div><div><b>${c.b} ${c.m}</b><br><span style="color:var(--muted)">${fmt(c.p)}</span></div><button class="del" onclick="delCar(${i})">Удалить</button></div>`).join("")}</div>
+  <div class="alist">${CARS.map((c,i)=>`<div class="arow"><div class="sw" style="background:${c.img?`url(${c.img}) center/cover`:BRANDS[c.b]}"></div><div><b>${c.b} ${c.m}</b><br><span style="color:var(--muted)">${fmt(c.p)}</span></div><button class="del" onclick="delCar(${i})">Удалить</button></div>`).join("")}</div>
   <button class="btn btn-ghost" style="width:100%;margin-top:14px" onclick="resetCars()">Сбросить демо-данные</button>`)}
-function addCar(f){const d=new FormData(f);CARS.unshift({b:d.get("b"),m:d.get("m"),y:2025,t:d.get("t"),e:d.get("e")||"—",p:+d.get("p"),hot:d.get("hot")?1:0});save();refresh();openAdmin();toast("Модель добавлена")}
+function addCar(f){const d=new FormData(f);const file=d.get("img");if(file&&file.size){const r=new FileReader();r.onload=()=>pushCar(d,r.result);r.readAsDataURL(file)}else pushCar(d,"")}
+function pushCar(d,img){CARS.unshift({img,b:d.get("b"),m:d.get("m"),y:2025,t:d.get("t"),e:d.get("e")||"—",p:+d.get("p"),hot:d.get("hot")?1:0});save();refresh();openAdmin();toast("Модель добавлена")}
 function delCar(i){CARS.splice(i,1);save();refresh();openAdmin();toast("Модель удалена")}
 function resetCars(){CARS=DEFAULT.slice();save();refresh();openAdmin()}
 function refresh(){renderHome();if(document.getElementById("catalog").style.display!=="none")renderCat()}
