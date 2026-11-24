@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FAMOUS — салон красоты · демо сайта</title>
+<meta name="description" content="Демо-версия сайта для салона красоты FAMOUS">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Jost:wght@200;300;400;500;600&family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sage:#8c9b88; --sage-d:#5f6d5c; --sage-l:#dfe5dc; --cream:#f5f2ec; --paper:#fbfaf7;
+    --ink:#2a2e29; --muted:#6f756d; --line:#e2e0d8; --gold:#b8955a; --r:22px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Jost,system-ui,sans-serif;font-weight:300;background:var(--paper);color:var(--ink);line-height:1.6;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+  section{padding:90px 0}
+  .eyebrow{font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--sage-d);font-weight:500;margin-bottom:14px}
+  h2{font-family:Jost,sans-serif;font-weight:200;font-size:clamp(34px,5vw,56px);line-height:1.08;letter-spacing:.01em;margin-bottom:16px}
+  h2 em,h1 em{font-family:"Cormorant Garamond",serif;font-style:italic;font-weight:400}
+  .lead{color:var(--muted);font-size:17px;max-width:600px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 30px;border-radius:999px;font-family:inherit;font-weight:500;font-size:15px;letter-spacing:.04em;border:0;cursor:pointer;transition:.2s}
+  .btn-dark{background:var(--ink);color:#fff}
+  .btn-dark:hover{background:var(--sage-d)}
+  .btn-line{background:transparent;border:1px solid var(--ink);color:var(--ink)}
+  .btn-line:hover{background:var(--ink);color:#fff}
+
+  .ribbon{background:var(--ink);color:#e8ebe6;text-align:center;font-size:13px;padding:9px 12px;letter-spacing:.02em}
+  .ribbon a{text-decoration:underline;color:#fff}
+
+  header{position:sticky;top:0;z-index:40;background:rgba(251,250,247,.88);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:74px}
+  .logo{display:flex;flex-direction:column;align-items:center;line-height:1}
+  .logo b{font-weight:200;font-size:28px;letter-spacing:.42em;margin-right:-.42em}
+  .logo small{font-size:10px;letter-spacing:.3em;color:var(--muted);margin-top:4px}
+  .menu{display:flex;gap:32px;font-size:15px;color:var(--muted)}
+  .menu a:hover{color:var(--ink)}
+  .nav .btn{padding:11px 22px;font-size:14px}
+  @media(max-width:860px){.menu{display:none}}
+
+  /* hero */
+  .hero{position:relative;background:var(--sage);color:#fff;overflow:hidden;padding:110px 0 120px}
+  .hero .leaves{position:absolute;inset:0;opacity:.28;pointer-events:none}
+  .hero .wrap{position:relative;text-align:center}
+  .hero .eyebrow{color:#eef1ec}
+  .hero h1{font-weight:200;font-size:clamp(58px,13vw,150px);letter-spacing:.32em;margin-right:-.32em;line-height:1}
+  .hero .sub{font-size:16px;letter-spacing:.38em;text-transform:lowercase;margin:14px 0 34px;opacity:.9}
+  .hero p{max-width:560px;margin:0 auto 36px;font-size:18px;opacity:.95}
+  .hero .actions{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+  .hero .btn-dark{background:#fff;color:var(--ink)}
+  .hero .btn-dark:hover{background:var(--ink);color:#fff}
+  .hero .btn-line{border-color:#fff;color:#fff}
+  .hero .btn-line:hover{background:#fff;color:var(--ink)}
+  .chips{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:44px}
+  .chips span{border:1px solid rgba(255,255,255,.55);border-radius:999px;padding:8px 16px;font-size:14px}
+
+  /* directions */
+  .dirs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:44px}
+  .dir{border-radius:var(--r);overflow:hidden;background:#fff;border:1px solid var(--line);display:flex;flex-direction:column;cursor:pointer;transition:.25s}
+  .dir:hover{transform:translateY(-4px);box-shadow:0 24px 50px rgba(42,46,41,.10)}
+  .dir .ph{height:230px;position:relative;display:grid;place-items:center;overflow:hidden}
+  .dir .ph svg{width:90px;height:90px;opacity:.85}
+  .dir .ph .tag{position:absolute;left:16px;top:16px;background:rgba(255,255,255,.85);border-radius:999px;font-size:12px;padding:5px 12px;font-weight:500}
+  .dir .bd{padding:22px 22px 26px}
+  .dir h3{font-weight:300;font-size:26px;margin-bottom:4px}
+  .dir .pr{font-size:18px;font-weight:500;color:var(--sage-d)}
+  .dir p{font-size:14.5px;color:var(--muted);margin-top:8px}
+  @media(max-width:860px){.dirs{grid-template-columns:1fr}}
+
+  /* price */
+  .price-sec{background:var(--sage);position:relative;overflow:hidden;color:#fff}
+  .price-sec .leaves{position:absolute;inset:0;opacity:.22;pointer-events:none}
+  .price-sec .wrap{position:relative}
+  .price-sec .eyebrow{color:#eef1ec}
+  .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:30px 0 30px}
+  .tab{padding:10px 20px;border-radius:999px;border:1px solid rgba(255,255,255,.6);background:transparent;color:#fff;cursor:pointer;font-family:inherit;font-size:15px;font-weight:400}
+  .tab.active{background:#fff;color:var(--ink)}
+  .plist{max-width:820px}
+  .row{display:flex;align-items:baseline;gap:14px;padding:20px 0;border-bottom:1px solid rgba(255,255,255,.3);font-family:"Jost",monospace;letter-spacing:.06em}
+  .row .nm{font-size:18px;font-weight:300}
+  .row .nm small{display:block;font-size:13px;opacity:.75;letter-spacing:.02em}
+  .row .dots{flex:1}
+  .row .pr{font-size:19px;font-weight:400;white-space:nowrap}
+  .row .bk{margin-left:8px;background:transparent;border:1px solid rgba(255,255,255,.6);color:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;font-family:inherit;font-size:13px}
+  .row .bk:hover{background:#fff;color:var(--ink)}
+  .pnote{font-size:13px;opacity:.8;margin-top:22px}
+  @media(max-width:560px){.row{flex-wrap:wrap}.row .dots{display:none}.row .nm{width:100%}}
+
+  /* gallery */
+  .gal{display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:190px;gap:12px;margin-top:40px}
+  .g{border-radius:18px;display:flex;align-items:flex-end;padding:16px;font-size:14px;color:#fff;font-weight:400;position:relative;overflow:hidden}
+  .g.big{grid-column:span 2;grid-row:span 2}
+  .g::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 50%,rgba(0,0,0,.25))}
+  .g span{position:relative;z-index:1}
+  @media(max-width:760px){.gal{grid-template-columns:1fr 1fr;grid-auto-rows:150px}}
+  .gstat{display:flex;gap:40px;margin-top:30px;flex-wrap:wrap}
+  .gstat b{font-weight:200;font-size:46px;display:block;line-height:1}
+  .gstat span{font-size:14px;color:var(--muted)}
+
+  /* why */
+  .why{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+  .why div{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:26px}
+  .why i{font-style:normal;font-size:26px;display:block;margin-bottom:12px}
+  .why h4{font-weight:500;font-size:17px;margin-bottom:6px}
+  .why p{font-size:14px;color:var(--muted)}
+  @media(max-width:860px){.why{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.why{grid-template-columns:1fr}}
+
+  /* contacts */
+  .contact{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:40px}
+  .cbox{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:32px}
+  .cbox h4{font-weight:400;font-size:22px;margin-bottom:16px}
+  .cbox p{color:var(--muted);margin-bottom:8px}
+  .cbox b{color:var(--ink);font-weight:500}
+  .cbox .btns{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+  .map{border-radius:var(--r);background:var(--sage-l);min-height:280px;display:grid;place-items:center;color:var(--sage-d);text-align:center;padding:20px;border:1px dashed var(--sage)}
+  @media(max-width:760px){.contact{grid-template-columns:1fr}}
+  .ph-txt{background:#fff3d6;padding:1px 6px;border-radius:6px;color:#8a6a1e;font-size:.92em}
+
+  footer.site{border-top:1px solid var(--line);padding:36px 0;color:var(--muted);font-size:14px}
+  footer.site .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
+
+  /* modal */
+  .modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center;background:rgba(30,34,29,.55);backdrop-filter:blur(4px)}
+  .modal.open{display:flex}
+  .sheet{background:var(--paper);width:100%;max-width:520px;max-height:92vh;overflow:auto;border-radius:26px 26px 0 0;padding:26px 22px 30px}
+  @media(min-width:600px){.modal{align-items:center}.sheet{border-radius:26px}}
+  .sh{display:flex;justify-content:space-between;align-items:center}
+  .sh h3{font-weight:300;font-size:28px}
+  .x{background:var(--sage-l);border:0;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:17px;color:var(--ink)}
+  .steps{display:flex;gap:6px;margin:14px 0 22px}
+  .steps i{flex:1;height:3px;border-radius:3px;background:var(--line)}
+  .steps i.on{background:var(--sage-d)}
+  .grp{font-size:12px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px}
+  .opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;background:#fff;border:1px solid var(--line);color:var(--ink);padding:14px 16px;border-radius:14px;margin-bottom:8px;cursor:pointer;font-family:inherit;font-size:15px;font-weight:400}
+  .opt:hover{border-color:var(--sage-d)}
+  .opt .r{margin-left:auto;font-weight:500;white-space:nowrap}
+  .days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px}
+  .day{flex:none;background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 14px;text-align:center;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .day small{display:block;font-size:11px;color:var(--muted)}
+  .day.sel{background:var(--sage-d);border-color:var(--sage-d);color:#fff}
+  .day.sel small{color:#e6ebe4}
+  .times{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .times button{background:#fff;border:1px solid var(--line);padding:12px 0;border-radius:12px;font-family:inherit;font-size:15px;cursor:pointer;color:var(--ink)}
+  .times button:hover{border-color:var(--sage-d)}
+  .field{width:100%;background:#fff;border:1px solid var(--line);padding:15px 16px;border-radius:14px;font-size:16px;margin-bottom:10px;font-family:inherit}
+  .sum{background:var(--sage-l);border-radius:16px;padding:16px;font-size:14.5px;margin-bottom:16px}
+  .sum div{display:flex;justify-content:space-between;padding:4px 0;gap:10px}
+  .sum span{color:var(--muted)}
+  .sheet .btn{width:100%;margin-top:8px}
+  .back{background:none;border:0;color:var(--muted);cursor:pointer;font-family:inherit;margin-top:12px;width:100%;font-size:14px}
+  .demo-note{display:block;text-align:center;font-size:12.5px;color:var(--muted);margin-top:14px}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:var(--ink);color:#fff;padding:14px 20px;border-radius:14px;font-size:14px;transition:.3s;z-index:200}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+
+  /* ===== OFFER ===== */
+  .offer{background:var(--ink);color:#eef0ec;padding:100px 0 110px;position:relative}
+  .offer .divider{position:absolute;top:0;left:0;right:0;text-align:center;transform:translateY(-50%)}
+  .offer .divider span{background:var(--gold);color:#fff;font-weight:500;font-size:12px;letter-spacing:.24em;text-transform:uppercase;padding:11px 24px;border-radius:999px}
+  .offer .eyebrow{color:var(--gold)}
+  .offer .lead{color:#b9beb6}
+  .cmp-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:44px}
+  .cmp{border-radius:var(--r);padding:30px}
+  .cmp.was{background:#363b35}
+  .cmp.now{background:var(--sage);color:#fff}
+  .cmp h4{font-weight:400;font-size:19px;margin-bottom:14px}
+  .cmp li{list-style:none;padding:7px 0 7px 28px;position:relative;font-size:15px}
+  .cmp.was li::before{content:"✕";position:absolute;left:0;color:#d98b7a}
+  .cmp.now li::before{content:"✓";position:absolute;left:0;color:#fff;font-weight:600}
+  @media(max-width:760px){.cmp-grid{grid-template-columns:1fr}}
+  .nums{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:22px}
+  .nums div{border:1px solid #444a43;border-radius:var(--r);padding:24px}
+  .nums b{display:block;font-weight:200;font-size:46px;line-height:1;color:var(--gold)}
+  .nums span{font-size:14px;color:#b9beb6}
+  @media(max-width:760px){.nums{grid-template-columns:1fr}}
+  .packs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:56px}
+  .pack{background:#32372f;border-radius:26px;padding:32px 26px;display:flex;flex-direction:column}
+  .pack.hit{background:var(--paper);color:var(--ink);transform:translateY(-12px)}
+  .pack .lbl{font-size:11px;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);font-weight:500;margin-bottom:10px}
+  .pack h3{font-weight:200;font-size:40px;letter-spacing:.06em;line-height:1;margin-bottom:8px}
+  .pack .for{font-size:14px;color:#b9beb6;margin-bottom:20px}
+  .pack.hit .for{color:var(--muted)}
+  .pack ul{list-style:none;flex:1;margin-bottom:22px}
+  .pack li{padding:7px 0 7px 26px;position:relative;font-size:14.5px}
+  .pack li::before{content:"✓";position:absolute;left:0;color:var(--gold);font-weight:600}
+  .pack.hit li::before{color:var(--sage-d)}
+  .pack .term{font-size:13px;color:#9da39a;margin-bottom:16px}
+  .pack.hit .term{color:var(--muted)}
+  .pack .btn{width:100%;background:#eef0ec;color:var(--ink)}
+  .pack.hit .btn{background:var(--sage-d);color:#fff}
+  @media(max-width:900px){.packs{grid-template-columns:1fr}.pack.hit{transform:none}}
+  .final{margin-top:64px;border-radius:30px;background:var(--sage);padding:52px 30px;text-align:center;color:#fff;position:relative;overflow:hidden}
+  .final .leaves{position:absolute;inset:0;opacity:.2}
+  .final>*{position:relative}
+  .final h3{font-weight:200;font-size:clamp(30px,4.4vw,46px);margin-bottom:12px}
+  .final p{max-width:560px;margin:0 auto 28px;opacity:.92}
+  .final .actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
+  .tg{background:#2aa1da;color:#fff}
+  .wa{background:#25d366;color:#0b2a14}
+</style>
+</head>
+<body>
+
+<!-- reusable leaf shadow pattern -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="leaf" viewBox="0 0 40 100"><path d="M20 0 C38 25 38 70 20 100 C2 70 2 25 20 0Z" fill="#1d241c"/></symbol>
+    <symbol id="branch" viewBox="0 0 300 600">
+      <path d="M150 600 C140 450 170 300 150 0" stroke="#1d241c" stroke-width="5" fill="none"/>
+      <use href="#leaf" x="60" y="60" width="50" height="120" transform="rotate(-35 85 120)"/>
+      <use href="#leaf" x="170" y="120" width="50" height="120" transform="rotate(35 195 180)"/>
+      <use href="#leaf" x="55" y="210" width="55" height="130" transform="rotate(-40 82 275)"/>
+      <use href="#leaf" x="175" y="270" width="55" height="130" transform="rotate(40 202 335)"/>
+      <use href="#leaf" x="60" y="370" width="55" height="130" transform="rotate(-45 87 435)"/>
+      <use href="#leaf" x="170" y="420" width="55" height="130" transform="rotate(45 197 485)"/>
+      <use href="#leaf" x="128" y="-20" width="44" height="100"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="ribbon">Демо-версия сайта для салона FAMOUS · предложение — <a href="#offer">в конце страницы ↓</a></div>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo"><b>FAMOUS</b><small>салон красоты</small></a>
+    <nav class="menu">
+      <a href="#services">Услуги</a>
+      <a href="#price">Прайс</a>
+      <a href="#works">Работы</a>
+      <a href="#contacts">Контакты</a>
+      <a href="#offer">Предложение</a>
+    </nav>
+    <button class="btn btn-dark" onclick="openBooking()">Записаться</button>
+  </div>
+</header>
+
+<main id="top">
+<section class="hero">
+  <svg class="leaves" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 700">
+    <use href="#branch" x="-60" y="-80" width="380" height="760" transform="rotate(-18 130 300)"/>
+    <use href="#branch" x="900" y="-40" width="360" height="720" transform="rotate(22 1080 320)"/>
+    <use href="#branch" x="760" y="330" width="260" height="520" transform="rotate(-30 890 590)"/>
+  </svg>
+  <div class="wrap">
+    <div class="eyebrow">Маникюр · волосы · брови</div>
+    <h1>FAMOUS</h1>
+    <div class="sub">салон красоты</div>
+    <p>Блонд, сложное окрашивание, аккуратный маникюр и брови — в одном месте. Запишитесь онлайн за минуту.</p>
+    <div class="actions">
+      <button class="btn btn-dark" onclick="openBooking()">Записаться онлайн</button>
+      <a class="btn btn-line" href="#price">Смотреть прайс</a>
+    </div>
+    <div class="chips"><span>Маникюр от 1 000 ₽</span><span>Окрашивание от 5 800 ₽</span><span>Тотал блонд 8 600 ₽</span></div>
+  </div>
+</section>
+
+<!-- DIRECTIONS -->
+<section id="services">
+  <div class="wrap">
+    <div class="eyebrow">Направления</div>
+    <h2>Всё для образа — <em>в одном салоне</em></h2>
+    <p class="lead">Выберите направление, чтобы посмотреть цены и записаться.</p>
+    <div class="dirs">
+      <div class="dir" onclick="goCat('Волосы')">
+        <div class="ph" style="background:linear-gradient(160deg,#e9dcc6,#c9b08a)"><span class="tag">Популярное</span>
+          <svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="2"><path d="M20 8c-6 10-6 26 0 48M32 6c-4 14-4 30 0 52M44 8c6 10 6 26 0 48"/></svg></div>
+        <div class="bd"><h3>Волосы</h3><div class="pr">от 5 800 ₽</div><p>Окрашивание, сложное окрашивание, тотал блонд — естественные переходы и ухоженный цвет.</p></div>
+      </div>
+      <div class="dir" onclick="goCat('Маникюр')">
+        <div class="ph" style="background:linear-gradient(160deg,#f3dfe0,#d9b3b6)"><svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="2"><rect x="10" y="14" width="10" height="20" rx="5"/><rect x="24" y="8" width="10" height="24" rx="5"/><rect x="38" y="10" width="10" height="22" rx="5"/><path d="M8 40c10 12 38 12 48 0"/></svg></div>
+        <div class="bd"><h3>Маникюр и педикюр</h3><div class="pr">от 1 000 ₽</div><p>Нюд, френч, дизайн. Аккуратная обработка и стойкое покрытие.</p></div>
+      </div>
+      <div class="dir" onclick="goCat('Брови и ресницы')">
+        <div class="ph" style="background:linear-gradient(160deg,#dfe5dc,#9aaa95)"><svg viewBox="0 0 64 64" fill="none" stroke="#fff" stroke-width="2"><path d="M8 28c12-10 36-12 48-4"/><path d="M12 42c8 6 32 6 40 0M18 44l-2 6M26 46l-1 6M38 46l1 6M46 44l2 6"/></svg></div>
+        <div class="bd"><h3>Брови и ресницы</h3><div class="pr">от 450 ₽</div><p>Архитектура, окрашивание краской или хной, ламинирование бровей и ресниц.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICE -->
+<section class="price-sec" id="price">
+  <svg class="leaves" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1200 900">
+    <use href="#branch" x="850" y="-60" width="420" height="840" transform="rotate(20 1060 360)"/>
+    <use href="#branch" x="-120" y="380" width="340" height="680" transform="rotate(-25 50 720)"/>
+  </svg>
+  <div class="wrap">
+    <div class="eyebrow">Прайс</div>
+    <h2>Цены <em>без звёздочек</em></h2>
+    <div class="tabs" id="tabs"></div>
+    <div class="plist" id="plist"></div>
+    <p class="pnote">Цены взяты из карточки салона в 2ГИС. В рабочей версии прайс заполняется полностью и редактируется самим салоном.</p>
+  </div>
+</section>
+
+<!-- WORKS -->
+<section id="works">
+  <div class="wrap">
+    <div class="eyebrow">Работы</div>
+    <h2>Портфолио, <em>которое продаёт</em></h2>
+    <p class="lead">В 2ГИС у салона уже 356 фото и 9 видео. На сайте они станут красивой галереей по направлениям.</p>
+    <div class="gal">
+      <div class="g big" style="background:linear-gradient(160deg,#ead9bd,#b8955a)"><span>Тотал блонд · фото работы</span></div>
+      <div class="g" style="background:linear-gradient(160deg,#f1dcdc,#cfa3a6)"><span>Нюд-маникюр</span></div>
+      <div class="g" style="background:linear-gradient(160deg,#cfd6cb,#7e8f7a)"><span>Интерьер</span></div>
+      <div class="g" style="background:linear-gradient(160deg,#e7d6c4,#a58565)"><span>Сложное окрашивание</span></div>
+      <div class="g" style="background:linear-gradient(160deg,#2f332e,#646b61)"><span>Френч</span></div>
+    </div>
+    <div class="gstat"><div><b>356</b><span>фото работ</span></div><div><b>9</b><span>видео</span></div><div><b>3</b><span>направления</span></div></div>
+  </div>
+</section>
+
+<!-- WHY -->
+<section style="background:var(--cream)">
+  <div class="wrap">
+    <div class="eyebrow">Почему к нам</div>
+    <h2>Приятно прийти — <em>хочется вернуться</em></h2>
+    <div class="why">
+      <div><i>🌿</i><h4>Спокойная атмосфера</h4><p>Светлый интерьер, вкусная вода с лимоном и никакой спешки.</p></div>
+      <div><i>✨</i><h4>Сложный цвет</h4><p>Блонд и сложное окрашивание без «жёлтых» оттенков и с заботой о волосах.</p></div>
+      <div><i>💅</i><h4>Стерильность</h4><p>Инструменты проходят полный цикл обработки после каждого клиента.</p></div>
+      <div><i>📅</i><h4>Онлайн-запись</h4><p>Свободное время видно сразу — без звонков и переписок.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACTS -->
+<section id="contacts">
+  <div class="wrap">
+    <div class="eyebrow">Контакты</div>
+    <h2>Ждём вас <em>в гости</em></h2>
+    <div class="contact">
+      <div class="cbox">
+        <h4>Салон красоты FAMOUS</h4>
+        <p>Адрес: <b class="ph-txt">город, улица, дом</b></p>
+        <p>Часы работы: <b class="ph-txt">ежедневно 10:00–21:00</b></p>
+        <p>Телефон: <b class="ph-txt">+7 (___) ___-__-__</b></p>
+        <div class="btns">
+          <button class="btn btn-dark" onclick="openBooking()">Записаться</button>
+          <button class="btn btn-line" onclick="toast('В рабочей версии откроется WhatsApp салона')">WhatsApp</button>
+        </div>
+      </div>
+      <div class="map">Здесь будет карта 2ГИС / Яндекс<br>с точкой салона и кнопкой «Маршрут»</div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site"><div class="wrap"><div>FAMOUS · салон красоты</div><div>Демо-версия сайта</div></div></footer>
+
+<!-- ================= OFFER ================= -->
+<section class="offer" id="offer">
+  <div class="divider"><span>Предложение для FAMOUS</span></div>
+  <div class="wrap">
+    <div class="eyebrow">Что вы только что посмотрели</div>
+    <h2>Свой сайт FAMOUS — <em>в вашем стиле</em></h2>
+    <p class="lead">Сейчас о салоне можно узнать только из карточки 2ГИС: там фото, прайс картинкой и реклама других мастеров рядом. Сайт выше — пример того, как FAMOUS может выглядеть в интернете: в фирменном шалфейном стиле, с прайсом, работами и онлайн-записью.</p>
+
+    <div class="cmp-grid">
+      <div class="cmp was">
+        <h4>Сейчас — только карточка в 2ГИС</h4>
+        <ul>
+          <li>Рядом с вашим прайсом — реклама конкурентов</li>
+          <li>Прайс на бровях — картинкой, его не найти поиском</li>
+          <li>356 фото лежат без разделения по услугам</li>
+          <li>Нет записи онлайн в один клик</li>
+          <li>Не видно, сколько клиентов пришло из интернета</li>
+        </ul>
+      </div>
+      <div class="cmp now">
+        <h4>Со своим сайтом</h4>
+        <ul>
+          <li>Только ваш салон, без чужой рекламы</li>
+          <li>Фирменный стиль FAMOUS: тот же шалфей и шрифт</li>
+          <li>Прайс текстом — находится в Яндексе и Google</li>
+          <li>Портфолио по направлениям: волосы, ногти, брови</li>
+          <li>Онлайн-запись 24/7 и заявки в WhatsApp/Telegram</li>
+          <li>Аналитика: видно, откуда приходят клиенты</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="nums">
+      <div><b>356</b><span>фото уже готовы для галереи — снимать заново не нужно</span></div>
+      <div><b>24/7</b><span>сайт принимает записи, пока салон закрыт</span></div>
+      <div><b>1</b><span>ссылка для Instagram, 2ГИС и визиток вместо нескольких</span></div>
+    </div>
+
+    <div class="packs">
+      <div class="pack">
+        <div class="lbl">Пакет</div>
+        <h3>Старт</h3>
+        <div class="for">Красивая визитка салона</div>
+        <ul>
+          <li>Одностраничный сайт в стиле FAMOUS</li>
+          <li>Направления, прайс, контакты, карта</li>
+          <li>Кнопки записи в WhatsApp / Telegram</li>
+          <li>Адаптив под телефон</li>
+          <li>Домен и размещение</li>
+        </ul>
+        <div class="term">Срок: от 5 дней</div>
+        <a class="btn" href="#contact">Обсудить</a>
+      </div>
+      <div class="pack hit">
+        <div class="lbl">Рекомендую</div>
+        <h3>Бизнес</h3>
+        <div class="for">Сайт, который приводит клиентов</div>
+        <ul>
+          <li>Всё из «Старт»</li>
+          <li>Онлайн-запись (yclients / DIKIDI или своя форма)</li>
+          <li>Галерея работ по направлениям</li>
+          <li>Страницы мастеров с отзывами</li>
+          <li>SEO под ваш город + Яндекс Карты и 2ГИС</li>
+          <li>Яндекс Метрика и цели на запись</li>
+        </ul>
+        <div class="term">Срок: от 10 дней</div>
+        <a class="btn" href="#contact">Обсудить</a>
+      </div>
+      <div class="pack">
+        <div class="lbl">Пакет</div>
+        <h3>Премиум</h3>
+        <div class="for">Сайт + продвижение</div>
+        <ul>
+          <li>Всё из «Бизнес»</li>
+          <li>Подарочные сертификаты на сайте</li>
+          <li>Настройка рекламы в Яндекс Директ</li>
+          <li>Сбор отзывов и программа лояльности</li>
+          <li>Поддержка и ежемесячный отчёт по заявкам</li>
+        </ul>
+        <div class="term">Срок: от 14 дней + сопровождение</div>
+        <a class="btn" href="#contact">Обсудить</a>
+      </div>
+    </div>
+
+    <div class="final" id="contact">
+      <svg class="leaves" preserveAspectRatio="xMidYMid slice" viewBox="0 0 1000 400"><use href="#branch" x="760" y="-80" width="260" height="520" transform="rotate(25 890 180)"/><use href="#branch" x="-40" y="-60" width="220" height="440" transform="rotate(-25 70 160)"/></svg>
+      <h3>Сделаем такой сайт для FAMOUS?</h3>
+      <p>Покажу демо, учту ваши пожелания и предложу стоимость под нужный пакет. Первая консультация — бесплатно.</p>
+      <div class="actions">
+        <!-- TODO: подставьте свои контакты -->
+        <a class="btn tg" href="https://t.me/USERNAME">Написать в Telegram</a>
+        <a class="btn wa" href="https://wa.me/7XXXXXXXXXX">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING -->
+<div class="modal" id="modal" onclick="if(event.target===this)closeBooking()">
+  <div class="sheet">
+    <div class="sh"><h3 id="stT">Онлайн-запись</h3><button class="x" onclick="closeBooking()">✕</button></div>
+    <div class="steps" id="steps"><i></i><i></i><i></i></div>
+    <div id="stB"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+/* Только цены из карточки салона в 2ГИС */
+const PRICE={
+  "Волосы":[
+    {n:"Окрашивание волос",p:"от 5 800"},
+    {n:"Сложное окрашивание волос",p:"от 8 600"},
+    {n:"Тотал блонд",p:"8 600"},
+  ],
+  "Маникюр":[
+    {n:"Маникюр и педикюр",p:"от 1 000"},
+  ],
+  "Брови и ресницы":[
+    {n:"Архитектура + окрашивание",s:"краска / хна",p:"1 300 / 1 500"},
+    {n:"Окрашивание бровей",s:"краска / хна",p:"800 / 900"},
+    {n:"Архитектура бровей",p:"800"},
+    {n:"Ламинирование бровей",s:"с окрашиванием / без",p:"2 250 / 2 000"},
+    {n:"Окрашивание ресниц",p:"700"},
+    {n:"Ламинирование ресниц",p:"2 500"},
+    {n:"Зона лица, воск",p:"450"},
+  ],
+};
+const cats=Object.keys(PRICE);let cur="Брови и ресницы";
+function renderPrice(){
+  document.getElementById("tabs").innerHTML=cats.map(c=>`<button class="tab ${c===cur?'active':''}" onclick="cur='${c}';renderPrice()">${c}</button>`).join("");
+  document.getElementById("plist").innerHTML=PRICE[cur].map((x,i)=>`<div class="row"><div class="nm">${x.n}${x.s?`<small>${x.s}</small>`:""}</div><div class="dots"></div><div class="pr">${x.p} ₽</div><button class="bk" onclick="openBooking('${cur}',${i})">Записаться</button></div>`).join("");
+}
+renderPrice();
+function goCat(c){cur=c;renderPrice();document.getElementById("price").scrollIntoView({behavior:"smooth"})}
+
+const DAYS=(()=>{const r=[],w=["вс","пн","вт","ср","чт","пт","сб"],mo=["янв","фев","мар","апр","мая","июн","июл","авг","сен","окт","ноя","дек"];for(let k=0;k<7;k++){const d=new Date();d.setDate(d.getDate()+k);r.push({l:k===0?"Сегодня":k===1?"Завтра":w[d.getDay()],s:d.getDate()+" "+mo[d.getMonth()]})}return r})();
+const TIMES=["10:00","11:00","12:30","13:30","15:00","16:00","17:30","19:00"];
+let B={};
+function openBooking(c,i){B={day:0};if(c!==undefined){B.svc=PRICE[c][i];}step(B.svc?2:1);document.getElementById("modal").classList.add("open");document.body.style.overflow="hidden"}
+function closeBooking(){document.getElementById("modal").classList.remove("open");document.body.style.overflow=""}
+const note='<span class="demo-note">Демо-форма: настоящая запись не создаётся.</span>';
+function step(n){
+  document.querySelectorAll("#steps i").forEach((x,k)=>x.classList.toggle("on",k<n));
+  const b=document.getElementById("stB"),t=document.getElementById("stT");
+  if(n===1){t.textContent="Выберите услугу";
+    b.innerHTML=cats.map(c=>`<div class="grp">${c}</div>`+PRICE[c].map((x,i)=>`<button class="opt" onclick="B.svc=PRICE['${c}'][${i}];step(2)"><div>${x.n}${x.s?`<br><small style="color:var(--muted)">${x.s}</small>`:""}</div><span class="r">${x.p} ₽</span></button>`).join("")).join("")+note}
+  if(n===2){t.textContent="Дата и время";
+    b.innerHTML=`<div class="days">${DAYS.map((d,k)=>`<button class="day ${B.day===k?'sel':''}" onclick="B.day=${k};step(2)">${d.l}<small>${d.s}</small></button>`).join("")}</div>
+    <div class="times">${TIMES.filter((x,k)=>(k+B.day)%4!==2).map(x=>`<button onclick="B.time='${x}';step(3)">${x}</button>`).join("")}</div><button class="back" onclick="step(1)">← Назад</button>`}
+  if(n===3){t.textContent="Ваши данные";
+    b.innerHTML=`<div class="sum"><div><span>Услуга</span>${B.svc.n}</div><div><span>Когда</span>${DAYS[B.day].l}, ${B.time}</div><div><span>Стоимость</span><b>${B.svc.p} ₽</b></div></div>
+    <input class="field" placeholder="Ваше имя"><input class="field" type="tel" placeholder="+7 (___) ___-__-__">
+    <button class="btn btn-dark" onclick="done()">Записаться</button><button class="back" onclick="step(2)">← Назад</button>`+note}
+}
+function done(){document.getElementById("stT").textContent="Готово";
+  document.getElementById("stB").innerHTML=`<div style="text-align:center;padding:16px 0"><div style="font-size:52px">🌿</div><h3 style="font-weight:300;font-size:28px;margin:8px 0">Вы записаны!</h3><p style="color:var(--muted)">${B.svc.n}<br>${DAYS[B.day].l}, ${B.time}</p><button class="btn btn-dark" onclick="closeBooking()">Отлично</button><span class="demo-note">Это демонстрация — запись не создана.</span></div>`}
+function toast(t){const e=document.getElementById("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),2500)}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeBooking()});
+</script>
+</body>
+</html>
