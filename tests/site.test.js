@@ -121,7 +121,8 @@ test('price list shows exactly the confirmed prices', async b => {
 
 test('no filler text or placeholders', async b => {
   const { page } = await open(b, DESKTOP);
-  const html = (await page.content()).toLowerCase();
+  // Inlined images are base64 noise: drop them before looking for filler words.
+  const html = (await page.content()).replace(/data:image\/[a-z]+;base64,[A-Za-z0-9+\/=]+/g, '').toLowerCase();
   for (const bad of ['lorem', 'ipsum', 'todo', 'example.com', 'xxx-xx']) assert.ok(!html.includes(bad), bad);
 });
 
