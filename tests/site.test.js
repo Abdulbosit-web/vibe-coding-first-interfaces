@@ -19,10 +19,12 @@ if (!SITES.length) throw new Error('no sites in tests/sites');
 
 const tests = [];
 let FACTS, PAGE; // set per site by the runner below
+const contexts = []; // closed after every test so pages do not pile up
 const test = (name, fn) => tests.push({ name, fn });
 
 async function open(browser, viewport) {
   const ctx = await browser.newContext({ viewport, locale: 'ru-RU' });
+  contexts.push(ctx);
   const page = await ctx.newPage();
   const errors = [];
   page.on('pageerror', e => errors.push(e.message));
@@ -110,11 +112,9 @@ test('phone: menu opens, and a menu link closes it and scrolls', async b => {
   assert.equal(await nav.isVisible(), true);
   await nav.locator('a[href="#prices"]').click();
   assert.equal(await burger.getAttribute('aria-expanded'), 'false');
-  let top = NaN, prev;
-  for (let i = 0; i < 40 && top !== prev; i++) { // wait until smooth scrolling settles
-    prev = top; await page.waitForTimeout(150);
-    top = await page.$eval('#prices', el => Math.round(el.getBoundingClientRect().top));
-  }
+  // Smooth scrolling ends with the section just under the sticky header.
+  await page.waitForFunction(() => Math.abs(document.querySelector('#prices').getBoundingClientRect().top) < 120, null, { timeout: 6000 }).catch(() => {});
+  const top = await page.$eval('#prices', el => Math.round(el.getBoundingClientRect().top));
   assert.ok(Math.abs(top) < 120, `prices section top at ${top}`);
 });
 
@@ -158,6 +158,7 @@ test('no script errors', async b => {
     for (const t of tests) {
       try { await t.fn(browser); console.log('ok   ', t.name); }
       catch (e) { failed++; console.log('FAIL ', t.name, '\n      ', e.message.split('\n')[0]); }
+      finally { await Promise.all(contexts.splice(0).map(c => c.close())); }
     }
   }
   await browser.close();
