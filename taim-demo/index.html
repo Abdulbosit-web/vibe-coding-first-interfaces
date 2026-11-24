@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Тайм — парикмахерская в Якутске · демо сайта</title>
+<meta name="description" content="Демо-версия сайта для парикмахерской «Тайм», Якутск">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0c0c; --bg2:#151313; --card:#1b1818; --line:#2b2626;
+    --text:#f3efea; --muted:#a39a92; --accent:#b8322a; --accent2:#d9483e;
+    --gold:#d4a94f; --radius:18px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:Manrope,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.55;-webkit-font-smoothing:antialiased}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+  .serif{font-family:"Cormorant Garamond",Georgia,serif;letter-spacing:.02em}
+  section{padding:88px 0}
+  .eyebrow{color:var(--accent2);font-weight:700;font-size:13px;letter-spacing:.18em;text-transform:uppercase;margin-bottom:14px}
+  h2{font-family:"Cormorant Garamond",serif;font-size:clamp(34px,5vw,54px);line-height:1.05;font-weight:600;margin-bottom:18px}
+  .lead{color:var(--muted);font-size:17px;max-width:620px}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:16px 28px;border-radius:999px;font-weight:700;font-size:16px;border:0;cursor:pointer;transition:.2s;font-family:inherit}
+  .btn-primary{background:var(--accent);color:#fff}
+  .btn-primary:hover{background:var(--accent2);transform:translateY(-1px)}
+  .btn-ghost{background:transparent;color:var(--text);border:1px solid #4a423f}
+  .btn-ghost:hover{border-color:var(--text)}
+
+  /* demo ribbon */
+  .ribbon{background:var(--gold);color:#1a1405;text-align:center;font-size:13px;font-weight:700;padding:8px 12px}
+  .ribbon a{text-decoration:underline}
+
+  /* header */
+  header{position:sticky;top:0;z-index:40;background:rgba(13,12,12,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+  .nav{display:flex;align-items:center;justify-content:space-between;height:70px}
+  .logo{display:flex;flex-direction:column;line-height:1}
+  .logo b{font-family:"Cormorant Garamond",serif;font-size:30px;letter-spacing:.22em;font-weight:700}
+  .logo small{font-size:9px;letter-spacing:.42em;color:var(--muted);margin-top:3px}
+  .menu{display:flex;gap:30px;font-size:15px;color:var(--muted)}
+  .menu a:hover{color:var(--text)}
+  .nav .btn{padding:11px 20px;font-size:14px}
+  @media(max-width:860px){.menu{display:none}}
+
+  /* hero */
+  .hero{position:relative;padding:110px 0 90px;overflow:hidden}
+  .hero::before{content:"";position:absolute;inset:0;background:
+    radial-gradient(700px 420px at 85% 10%,rgba(184,50,42,.35),transparent 60%),
+    radial-gradient(500px 400px at 0% 100%,rgba(212,169,79,.12),transparent 60%)}
+  .hero .wrap{position:relative;display:grid;grid-template-columns:1.2fr .8fr;gap:50px;align-items:center}
+  .hero h1{font-family:"Cormorant Garamond",serif;font-weight:600;font-size:clamp(46px,8vw,92px);line-height:.98;margin-bottom:24px}
+  .hero h1 em{color:var(--accent2);font-style:italic}
+  .hero p{color:var(--muted);font-size:18px;max-width:520px;margin-bottom:34px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px}
+  .stats{display:flex;gap:36px;margin-top:48px;flex-wrap:wrap}
+  .stats div b{display:block;font-family:"Cormorant Garamond",serif;font-size:40px;line-height:1;color:var(--gold)}
+  .stats div span{font-size:13px;color:var(--muted)}
+  .hero-card{background:linear-gradient(160deg,#221d1c,#141111);border:1px solid var(--line);border-radius:28px;padding:30px;box-shadow:0 30px 80px rgba(0,0,0,.5)}
+  .hero-card h3{font-size:14px;color:var(--muted);font-weight:600;margin-bottom:16px}
+  .slot-row{display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line)}
+  .slot-row:last-of-type{border:0}
+  .slot-row .who{display:flex;align-items:center;gap:12px}
+  .slot-row .time{background:#2a2322;padding:8px 14px;border-radius:10px;font-weight:700;font-size:14px}
+  .promo{margin-top:18px;background:rgba(184,50,42,.15);border:1px solid rgba(184,50,42,.4);border-radius:14px;padding:14px 16px;font-size:14px}
+  .promo b{color:var(--accent2)}
+  @media(max-width:860px){.hero .wrap{grid-template-columns:1fr}.hero{padding:70px 0 60px}}
+
+  /* avatar */
+  .ava{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;font-weight:800;font-size:16px;flex:none;color:#fff}
+
+  /* features */
+  .features{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:44px}
+  .feat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:26px}
+  .feat .ic{font-size:26px;margin-bottom:14px}
+  .feat h4{font-size:17px;margin-bottom:6px}
+  .feat p{font-size:14px;color:var(--muted)}
+  @media(max-width:860px){.features{grid-template-columns:1fr 1fr}}
+  @media(max-width:520px){.features{grid-template-columns:1fr}}
+
+  /* services */
+  .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:34px 0 26px}
+  .tab{padding:10px 18px;border-radius:999px;border:1px solid var(--line);background:transparent;color:var(--muted);cursor:pointer;font-family:inherit;font-weight:600;font-size:14px}
+  .tab.active{background:var(--text);color:var(--bg);border-color:var(--text)}
+  .price-list{display:grid;grid-template-columns:1fr 1fr;gap:0 48px}
+  .price{display:flex;align-items:baseline;gap:12px;padding:20px 0;border-bottom:1px solid var(--line)}
+  .price .nm{font-weight:600;font-size:17px}
+  .price .dur{font-size:13px;color:var(--muted)}
+  .price .dots{flex:1;border-bottom:1px dotted #4a423f;transform:translateY(-4px)}
+  .price .pr{font-weight:800;font-size:18px;white-space:nowrap}
+  .price .bk{margin-left:10px;background:none;border:1px solid var(--line);color:var(--text);border-radius:10px;padding:6px 10px;cursor:pointer;font-family:inherit;font-size:13px}
+  .price .bk:hover{border-color:var(--accent2);color:var(--accent2)}
+  .note{font-size:13px;color:var(--muted);margin-top:18px}
+  @media(max-width:760px){.price-list{grid-template-columns:1fr}}
+
+  /* masters */
+  .masters{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:40px}
+  .m{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:22px;display:flex;flex-direction:column;transition:.2s}
+  .m:hover{border-color:#4a3a37;transform:translateY(-3px)}
+  .m .top{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+  .m .ava{width:56px;height:56px;font-size:20px}
+  .m h4{font-size:18px}
+  .m .tag{font-size:12px;color:var(--gold);font-weight:700}
+  .m p{font-size:13.5px;color:var(--muted);flex:1;margin-bottom:14px}
+  .m .rev{font-size:13px;margin-bottom:14px}
+  .m .rev span{color:var(--gold)}
+  .m .near{font-size:12px;color:var(--muted);margin-bottom:8px}
+  .m .slots{display:flex;gap:6px;flex-wrap:wrap}
+  .m .slots button{background:#262120;border:0;color:var(--text);padding:8px 11px;border-radius:9px;font-weight:700;font-size:13px;cursor:pointer;font-family:inherit}
+  .m .slots button:hover{background:var(--accent)}
+  .filter{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}
+  @media(max-width:1000px){.masters{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:560px){.masters{grid-template-columns:1fr}}
+
+  /* branches */
+  .branches{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:40px}
+  .br{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+  .br .map{height:220px;border:0;width:100%;filter:grayscale(.6) invert(.9) hue-rotate(180deg) contrast(.9)}
+  .br .body{padding:22px;display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}
+  .br h4{font-size:19px}
+  .br p{color:var(--muted);font-size:14px}
+  .br .badge{display:inline-block;background:rgba(184,50,42,.18);color:var(--accent2);font-size:12px;font-weight:700;padding:4px 10px;border-radius:999px;margin-top:8px}
+  @media(max-width:760px){.branches{grid-template-columns:1fr}}
+
+  /* cta */
+  .cta{background:linear-gradient(135deg,#3a1110,#1a0b0a);border:1px solid #4a1e1b;border-radius:28px;padding:56px 40px;text-align:center}
+  .cta h2{margin-bottom:12px}
+  .cta p{color:#d6c7c2;margin-bottom:28px}
+  .cta .hero-actions{justify-content:center}
+  .wa{background:#25d366;color:#08250f}
+  .max{background:linear-gradient(90deg,#4c7cf0,#8a5cf0);color:#fff}
+
+  footer.site{padding:40px 0;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+  footer.site .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+
+  /* modal */
+  .modal{position:fixed;inset:0;z-index:100;display:none;align-items:flex-end;justify-content:center;background:rgba(0,0,0,.7);backdrop-filter:blur(4px)}
+  .modal.open{display:flex}
+  .sheet{background:#161313;border:1px solid var(--line);width:100%;max-width:520px;max-height:92vh;overflow:auto;border-radius:24px 24px 0 0;padding:26px 22px 30px}
+  @media(min-width:600px){.modal{align-items:center}.sheet{border-radius:24px}}
+  .sheet-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+  .sheet-head h3{font-family:"Cormorant Garamond",serif;font-size:30px;font-weight:600}
+  .x{background:#262120;border:0;color:var(--text);width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:18px}
+  .steps{display:flex;gap:6px;margin:12px 0 22px}
+  .steps i{flex:1;height:4px;border-radius:4px;background:#2b2626}
+  .steps i.on{background:var(--accent)}
+  .opt{display:flex;align-items:center;gap:14px;width:100%;text-align:left;background:var(--card);border:1px solid var(--line);color:var(--text);padding:14px 16px;border-radius:14px;margin-bottom:10px;cursor:pointer;font-family:inherit;font-size:15px}
+  .opt:hover,.opt.sel{border-color:var(--accent)}
+  .opt .r{margin-left:auto;font-weight:800;white-space:nowrap}
+  .opt small{display:block;color:var(--muted);font-size:12.5px}
+  .days{display:flex;gap:8px;overflow-x:auto;padding-bottom:6px;margin-bottom:16px}
+  .day{flex:none;background:var(--card);border:1px solid var(--line);color:var(--text);border-radius:12px;padding:10px 14px;text-align:center;cursor:pointer;font-family:inherit}
+  .day small{display:block;color:var(--muted);font-size:11px}
+  .day.sel{background:var(--accent);border-color:var(--accent)}
+  .times{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .times button{background:var(--card);border:1px solid var(--line);color:var(--text);padding:12px 0;border-radius:10px;font-weight:700;cursor:pointer;font-family:inherit}
+  .times button.sel{background:var(--accent);border-color:var(--accent)}
+  .field{width:100%;background:var(--card);border:1px solid var(--line);color:var(--text);padding:15px 16px;border-radius:12px;font-size:16px;margin-bottom:10px;font-family:inherit}
+  .summary{background:var(--card);border-radius:14px;padding:16px;font-size:14px;margin-bottom:16px}
+  .summary div{display:flex;justify-content:space-between;padding:4px 0}
+  .summary span{color:var(--muted)}
+  .sheet .btn{width:100%;margin-top:10px}
+  .back{background:none;border:0;color:var(--muted);cursor:pointer;font-family:inherit;margin-top:12px;width:100%}
+  .done{text-align:center;padding:20px 0}
+  .done .ok{font-size:56px}
+  .yc{display:block;text-align:center;font-size:13px;color:var(--muted);margin-top:14px}
+  .yc a{color:var(--gold);text-decoration:underline}
+
+  /* ===== OFFER ===== */
+  .offer{background:#f4efe9;color:#1c1716;padding:96px 0 110px;position:relative}
+  .offer .divider{position:absolute;top:-1px;left:0;right:0;text-align:center;transform:translateY(-50%)}
+  .offer .divider span{background:var(--gold);color:#1a1405;font-weight:800;font-size:13px;letter-spacing:.14em;text-transform:uppercase;padding:10px 22px;border-radius:999px}
+  .offer h2{color:#1c1716}
+  .offer .lead{color:#5d534e}
+  .offer .eyebrow{color:var(--accent)}
+  .compare{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:44px}
+  .cmp{border-radius:22px;padding:28px}
+  .cmp.was{background:#e7e0d8}
+  .cmp.now{background:#1c1716;color:#f3efea}
+  .cmp h4{font-size:18px;margin-bottom:16px}
+  .cmp li{list-style:none;padding:8px 0 8px 28px;position:relative;font-size:15px}
+  .cmp.was li::before{content:"✕";position:absolute;left:0;color:#a3402f;font-weight:800}
+  .cmp.now li::before{content:"✓";position:absolute;left:0;color:#7bd88f;font-weight:800}
+  @media(max-width:760px){.compare{grid-template-columns:1fr}}
+  .packs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:50px}
+  .pack{background:#fff;border:1px solid #e3dad1;border-radius:24px;padding:30px 26px;display:flex;flex-direction:column}
+  .pack.hit{background:#1c1716;color:#f3efea;border-color:#1c1716;transform:translateY(-10px);box-shadow:0 30px 60px rgba(28,23,22,.25)}
+  .pack .lbl{font-size:12px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);margin-bottom:8px}
+  .pack.hit .lbl{color:var(--gold)}
+  .pack h3{font-family:"Cormorant Garamond",serif;font-size:36px;font-weight:600;line-height:1;margin-bottom:8px}
+  .pack .for{font-size:14px;color:#7a6f69;margin-bottom:20px}
+  .pack.hit .for{color:#b4a9a3}
+  .pack ul{list-style:none;flex:1;margin-bottom:24px}
+  .pack li{padding:7px 0 7px 26px;position:relative;font-size:14.5px}
+  .pack li::before{content:"✓";position:absolute;left:0;color:var(--accent);font-weight:800}
+  .pack.hit li::before{color:var(--gold)}
+  .pack .term{font-size:13px;color:#7a6f69;margin-bottom:16px}
+  .pack.hit .term{color:#b4a9a3}
+  .pack .btn{width:100%}
+  .pack:not(.hit) .btn{background:#1c1716;color:#fff}
+  @media(max-width:900px){.packs{grid-template-columns:1fr}.pack.hit{transform:none}}
+  .why{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:40px}
+  .why div{background:#fff;border-radius:18px;padding:24px;border:1px solid #e3dad1}
+  .why b{display:block;font-family:"Cormorant Garamond",serif;font-size:42px;color:var(--accent);line-height:1}
+  .why span{font-size:14px;color:#5d534e}
+  @media(max-width:760px){.why{grid-template-columns:1fr}}
+  .final{margin-top:60px;background:#1c1716;color:#f3efea;border-radius:28px;padding:48px 32px;text-align:center}
+  .final h3{font-family:"Cormorant Garamond",serif;font-size:clamp(30px,4vw,44px);font-weight:600;margin-bottom:12px}
+  .final p{color:#b4a9a3;margin-bottom:26px;max-width:560px;margin-left:auto;margin-right:auto}
+  .final .hero-actions{justify-content:center}
+  .tg{background:#2aa1da;color:#fff}
+
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);background:#fff;color:#1c1716;padding:14px 20px;border-radius:14px;font-weight:600;font-size:14px;transition:.3s;z-index:200;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+  .toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+
+<div class="ribbon">Это демо-версия сайта для «Тайм». Предложение — <a href="#offer">в конце страницы ↓</a></div>
+
+<header>
+  <div class="wrap nav">
+    <a href="#top" class="logo"><b>TAIM</b><small>YAKUTSK</small></a>
+    <nav class="menu">
+      <a href="#services">Услуги и цены</a>
+      <a href="#masters">Мастера</a>
+      <a href="#branches">Филиалы</a>
+      <a href="#offer">Предложение</a>
+    </nav>
+    <button class="btn btn-primary" onclick="openBooking()">Записаться</button>
+  </div>
+</header>
+
+<main id="top">
+<!-- HERO -->
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <div class="eyebrow">Парикмахерская · Якутск</div>
+      <h1 class="serif">Стрижка, которая <em>держит форму</em></h1>
+      <p>Мужские и женские стрижки, окрашивание, укладки. 14 мастеров, два филиала в центре и запись онлайн за 30 секунд — даже на сегодня.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="openBooking()">Записаться онлайн →</button>
+        <a class="btn btn-ghost" href="#services">Смотреть цены</a>
+      </div>
+      <div class="stats">
+        <div><b>6 900+</b><span>отзывов клиентов</span></div>
+        <div><b>5.0</b><span>средняя оценка</span></div>
+        <div><b>15 лет</b><span>опыт топ-мастера</span></div>
+      </div>
+    </div>
+    <div class="hero-card">
+      <h3>Свободно сегодня · Лермонтова, 24</h3>
+      <div id="heroSlots"></div>
+      <div class="promo">🔥 На Ленина, 20 — <b>модельная стрижка всего за 550 ₽</b></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section style="padding-top:20px">
+  <div class="wrap">
+    <div class="eyebrow">Почему «Тайм»</div>
+    <h2>Приходите один раз — <br>остаётесь надолго</h2>
+    <div class="features">
+      <div class="feat"><div class="ic">✂️</div><h4>Опытные мастера</h4><p>От 1 до 15 лет практики, регулярное повышение квалификации в барберинге и колористике.</p></div>
+      <div class="feat"><div class="ic">⏱</div><h4>Без ожидания</h4><p>Онлайн-запись на точное время. Ближайшие окна видны прямо на сайте.</p></div>
+      <div class="feat"><div class="ic">💬</div><h4>Подбор формы</h4><p>Мастер подскажет стрижку под тип волос и образ жизни — чтобы легко укладывать дома.</p></div>
+      <div class="feat"><div class="ic">📍</div><h4>Два филиала</h4><p>Лермонтова, 24 и проспект Ленина, 20 — удобно добраться из любой части центра.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="eyebrow">Услуги и цены</div>
+    <h2>Прайс без сюрпризов</h2>
+    <p class="lead">Цена и длительность указаны сразу. Нажмите «Записаться» у нужной услуги.</p>
+    <div class="tabs" id="tabs"></div>
+    <div class="price-list" id="priceList"></div>
+    <p class="note">* В демо часть услуг и цен — примерные. В рабочей версии прайс автоматически подтягивается из вашего yclients.</p>
+  </div>
+</section>
+
+<!-- MASTERS -->
+<section id="masters">
+  <div class="wrap">
+    <div class="eyebrow">Команда</div>
+    <h2>Выберите своего мастера</h2>
+    <p class="lead">Рейтинг, отзывы и ближайшее свободное время — на одной карточке.</p>
+    <div class="filter" id="mFilter">
+      <button class="tab active" data-f="all">Все</button>
+      <button class="tab" data-f="men">Мужские мастера</button>
+      <button class="tab" data-f="uni">Универсалы</button>
+      <button class="tab" data-f="today">Свободны сегодня</button>
+    </div>
+    <div class="masters" id="mastersGrid"></div>
+  </div>
+</section>
+
+<!-- BRANCHES -->
+<section id="branches" style="background:var(--bg2)">
+  <div class="wrap">
+    <div class="eyebrow">Филиалы</div>
+    <h2>Мы в центре Якутска</h2>
+    <div class="branches">
+      <div class="br">
+        <iframe class="map" loading="lazy" src="https://yandex.ru/map-widget/v1/?text=%D0%AF%D0%BA%D1%83%D1%82%D1%81%D0%BA%2C%20%D1%83%D0%BB.%20%D0%9B%D0%B5%D1%80%D0%BC%D0%BE%D0%BD%D1%82%D0%BE%D0%B2%D0%B0%2C%2024&z=16" title="Карта Лермонтова 24"></iframe>
+        <div class="body"><div><h4>Тайм на Лермонтова</h4><p>ул. Лермонтова, 24</p></div><button class="btn btn-primary" onclick="openBooking({branch:0})">Записаться</button></div>
+      </div>
+      <div class="br">
+        <iframe class="map" loading="lazy" src="https://yandex.ru/map-widget/v1/?text=%D0%AF%D0%BA%D1%83%D1%82%D1%81%D0%BA%2C%20%D0%BF%D1%80%D0%BE%D1%81%D0%BF%D0%B5%D0%BA%D1%82%20%D0%9B%D0%B5%D0%BD%D0%B8%D0%BD%D0%B0%2C%2020&z=16" title="Карта Ленина 20"></iframe>
+        <div class="body"><div><h4>Тайм на Ленина</h4><p>проспект Ленина, 20 · рядом с Глобус-центром</p><span class="badge">Модельная стрижка — 550 ₽</span></div><button class="btn btn-primary" onclick="openBooking({branch:1})">Записаться</button></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section>
+  <div class="wrap">
+    <div class="cta">
+      <h2>Есть вопрос? Напишите нам</h2>
+      <p>Подберём мастера и удобное время, ответим за пару минут.</p>
+      <div class="hero-actions">
+        <button class="btn wa" onclick="toast('В рабочей версии откроется WhatsApp салона')">WhatsApp</button>
+        <button class="btn max" onclick="toast('В рабочей версии откроется чат в MAX')">Написать в MAX</button>
+        <button class="btn btn-primary" onclick="openBooking()">Записаться онлайн</button>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div><b style="color:var(--text)">Парикмахерская «Тайм»</b><br>Якутск · Лермонтова, 24 · пр. Ленина, 20</div>
+    <div>Онлайн-запись работает через yclients</div>
+  </div>
+</footer>
+
+<!-- ================= OFFER ================= -->
+<section class="offer" id="offer">
+  <div class="divider"><span>Предложение для «Тайм»</span></div>
+  <div class="wrap">
+    <div class="eyebrow">Что вы только что посмотрели</div>
+    <h2>Собственный сайт «Тайм» <br>вместо одной страницы в yclients</h2>
+    <p class="lead">Сейчас клиент из поиска или Instagram попадает на стандартную страницу yclients — без фото работ, без истории бренда, без отличий от сотни других салонов. Сайт выше — пример того, как «Тайм» может выглядеть в интернете. Ваша онлайн-запись остаётся в yclients, ничего менять в работе администраторов не нужно.</p>
+
+    <div class="compare">
+      <div class="cmp was">
+        <h4>Сейчас — страница yclients</h4>
+        <ul>
+          <li>Шаблонный вид, как у всех салонов</li>
+          <li>Не находится в Яндексе по «стрижка Якутск»</li>
+          <li>Нет фото работ и интерьера</li>
+          <li>Акции теряются в карусели</li>
+          <li>Нельзя подключить аналитику и рекламу</li>
+        </ul>
+      </div>
+      <div class="cmp now">
+        <h4>Со своим сайтом</h4>
+        <ul>
+          <li>Узнаваемый стиль бренда TAIM</li>
+          <li>SEO под Якутск: клиенты из поиска и Яндекс Карт</li>
+          <li>Портфолио мастеров и отзывы</li>
+          <li>Акции на первом экране — больше записей</li>
+          <li>Метрика, цели, реклама — видно, откуда клиенты</li>
+          <li>Та же запись в yclients — без перестройки процессов</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="packs">
+      <div class="pack">
+        <div class="lbl">Пакет</div>
+        <h3>Старт</h3>
+        <div class="for">Быстрый запуск сайта-визитки</div>
+        <ul>
+          <li>Одностраничный сайт в стиле бренда</li>
+          <li>Услуги, мастера, филиалы, контакты</li>
+          <li>Кнопки записи в yclients, WhatsApp, MAX</li>
+          <li>Адаптив под телефон</li>
+          <li>Домен и размещение</li>
+        </ul>
+        <div class="term">Срок: от 5 дней</div>
+        <a class="btn" href="#contact">Обсудить</a>
+      </div>
+      <div class="pack hit">
+        <div class="lbl">Рекомендую</div>
+        <h3>Бизнес</h3>
+        <div class="for">Сайт, который приводит клиентов</div>
+        <ul>
+          <li>Всё из «Старт»</li>
+          <li>Встроенная красивая онлайн-запись (виджет yclients)</li>
+          <li>Отдельные страницы мастеров и портфолио</li>
+          <li>SEO под Якутск + Яндекс Бизнес и Карты</li>
+          <li>Яндекс Метрика и цели на запись</li>
+          <li>Блок акций, который вы меняете сами</li>
+        </ul>
+        <div class="term">Срок: от 10 дней</div>
+        <a class="btn btn-primary" href="#contact">Обсудить</a>
+      </div>
+      <div class="pack">
+        <div class="lbl">Пакет</div>
+        <h3>Премиум</h3>
+        <div class="for">Сайт + постоянное развитие</div>
+        <ul>
+          <li>Всё из «Бизнес»</li>
+          <li>Фотосъёмка интерьера и работ мастеров</li>
+          <li>Настройка рекламы в Яндекс Директ</li>
+          <li>Сбор отзывов и программа лояльности</li>
+          <li>Ежемесячная поддержка и отчёт по заявкам</li>
+        </ul>
+        <div class="term">Срок: от 14 дней + сопровождение</div>
+        <a class="btn" href="#contact">Обсудить</a>
+      </div>
+    </div>
+
+    <div class="why">
+      <div><b>0</b><span>изменений в работе администраторов — запись остаётся в yclients</span></div>
+      <div><b>14</b><span>мастеров получают свою витрину с отзывами и рейтингом</span></div>
+      <div><b>24/7</b><span>сайт принимает записи, пока салон закрыт</span></div>
+    </div>
+
+    <div class="final" id="contact">
+      <h3>Давайте сделаем такой сайт для «Тайм»</h3>
+      <p>Покажу демо на встрече, учту ваши пожелания и предложу стоимость под нужный пакет. Первая консультация — бесплатно.</p>
+      <div class="hero-actions">
+        <!-- TODO: подставьте свои контакты -->
+        <a class="btn tg" href="https://t.me/USERNAME">Написать в Telegram</a>
+        <a class="btn wa" href="https://wa.me/7XXXXXXXXXX">WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING MODAL -->
+<div class="modal" id="modal" onclick="if(event.target===this)closeBooking()">
+  <div class="sheet">
+    <div class="sheet-head"><h3 id="stTitle">Онлайн-запись</h3><button class="x" onclick="closeBooking()">✕</button></div>
+    <div class="steps" id="steps"><i></i><i></i><i></i><i></i></div>
+    <div id="stBody"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const YC = "https://n142117.yclients.ru/";
+const BRANCHES = ["Лермонтова, 24","пр. Ленина, 20"];
+
+const SERVICES = {
+  "Мужские стрижки":[
+    {n:"Модельная, креативная стрижка",d:25,p:700},
+    {n:"Стрижка машинкой, 2 насадки",d:20,p:500},
+    {n:"Стрижка машинкой, 1 насадка",d:15,p:400},
+    {n:"Детская стрижка (до 12 лет)",d:25,p:550},
+    {n:"Оформление бороды",d:20,p:450},
+    {n:"Стрижка + борода",d:45,p:1100},
+  ],
+  "Женские стрижки":[
+    {n:"Женская стрижка, короткие волосы",d:40,p:900},
+    {n:"Женская стрижка, средние волосы",d:50,p:1100},
+    {n:"Стрижка чёлки",d:15,p:300},
+    {n:"Укладка",d:40,p:800},
+  ],
+  "Окрашивание":[
+    {n:"Окрашивание в один тон",d:90,p:2500},
+    {n:"Тонирование",d:60,p:1800},
+    {n:"Камуфляж седины (муж.)",d:30,p:900},
+  ],
+};
+
+const COLORS=["#8a2d26","#5b3a8a","#2d6a5a","#8a6a2d","#2d4f8a","#7a2d5e","#4a6a2d"];
+const MASTERS = [
+  {n:"Макс",t:"men",top:true,d:"Мужской ТОП мастер с опытом более 15 лет! Профи своего дела, индивидуальный подход к каждому клиенту.",r:987,s:["9:15","9:30","9:45","10:00"],when:"чт, 26 нояб"},
+  {n:"Лиза",t:"uni",d:"Мастер универсал с опытом более 7 лет, всегда повышает свои навыки и знает, что подойдёт именно вам.",r:996,s:["9:15","9:30","9:45","10:00"],when:"завтра"},
+  {n:"Эльдар",t:"men",d:"Мужской мастер с опытом более 3 лет! Выполнит любую стрижку под ваш запрос, знает тренды.",r:730,s:["20:45","21:00"],when:"сегодня"},
+  {n:"Жанна",t:"uni",d:"Мастер универсал с опытом более 4 лет. Подберёт стрижку под ваш запрос и сделает всё наилучшим образом!",r:654,s:["10:00","10:15","10:30","10:45"],when:"завтра"},
+  {n:"Рома",t:"men",d:"Мужской мастер с опытом более 3 лет. Внимательно прислушивается к пожеланиям и воплощает их в реальность.",r:625,s:["20:45","21:00"],when:"сегодня"},
+  {n:"Иса",t:"men",d:"Мужской мастер с опытом более 5 лет. Внимательно и старательно подходит к каждому клиенту.",r:561,s:["9:15","9:30","9:45","10:00"],when:"завтра"},
+  {n:"Нурик",t:"men",d:"Мужской мастер с опытом более 4 лет. Регулярно повышает квалификацию в направлении барберинга.",r:475,s:["9:15","9:30","9:45","10:00"],when:"завтра"},
+  {n:"Эльвира",t:"uni",d:"Мастер универсал с опытом более 7 лет, быстро и качественно выполнит ваш запрос!",r:330,s:["9:15","9:30","9:45","10:00"],when:"завтра"},
+  {n:"Аня",t:"uni",d:"Мастер универсал с опытом более 7 лет! Очень старательно подходит к каждому движению, постоянно развивается.",r:202,s:["9:15","9:30","9:45","10:00"],when:"чт, 26 нояб"},
+  {n:"Аля",t:"uni",d:"Мастер универсал с опытом более 5 лет. Стрижки, окрашивание и укладки с заботой о здоровье волос.",r:164,s:["10:00","10:15","10:30"],when:"завтра"},
+  {n:"Надя",t:"men",d:"Мужской мастер с опытом около 1 года. Классические и современные стрижки для мужчин и подростков.",r:47,s:["14:00","14:15","14:30","14:45"],when:"завтра"},
+  {n:"Эрик",t:"men",d:"Мужской мастер с опытом барбера более 7 лет!",r:24,s:["20:45","21:00"],when:"сегодня"},
+  {n:"Алексей",t:"men",d:"Мужской мастер с опытом более 4 лет! Подберёт форму, которая легко укладывается в повседневной жизни.",r:3,s:["20:45","21:00"],when:"сегодня"},
+];
+const ava=(m,i)=>`<div class="ava" style="background:${COLORS[i%COLORS.length]}">${m.n[0]}</div>`;
+const plural=(n)=>{const a=n%10,b=n%100;return (a===1&&b!==11)?"отзыв":(a>=2&&a<=4&&(b<10||b>=20))?"отзыва":"отзывов"};
+
+/* hero slots */
+document.getElementById("heroSlots").innerHTML = MASTERS.filter(m=>m.when==="сегодня").slice(0,4).map((m)=>{
+  const i=MASTERS.indexOf(m);
+  return `<div class="slot-row"><div class="who">${ava(m,i)}<div><b>${m.n}</b><br><small style="color:var(--muted)">★ 5.0 · ${m.r} ${plural(m.r)}</small></div></div><button class="time" style="border:0;color:var(--text);cursor:pointer" onclick="openBooking({master:${i},time:'${m.s[0]}',day:0})">${m.s[0]}</button></div>`}).join("");
+
+/* services */
+const cats=Object.keys(SERVICES);let curCat=cats[0];
+function renderServices(){
+  document.getElementById("tabs").innerHTML=cats.map(c=>`<button class="tab ${c===curCat?'active':''}" onclick="curCat='${c}';renderServices()">${c}</button>`).join("");
+  document.getElementById("priceList").innerHTML=SERVICES[curCat].map((s,j)=>`<div class="price"><div><div class="nm">${s.n}</div><div class="dur">${s.d} мин</div></div><div class="dots"></div><div class="pr">${s.p} ₽</div><button class="bk" onclick="openBooking({cat:'${curCat}',svc:${j}})">Записаться</button></div>`).join("");
+}
+renderServices();
+
+/* masters */
+let mf="all";
+function renderMasters(){
+  const list=MASTERS.map((m,i)=>({m,i})).filter(({m})=>mf==="all"||(mf==="today"?m.when==="сегодня":m.t===mf));
+  document.getElementById("mastersGrid").innerHTML=list.map(({m,i})=>`
+    <div class="m">
+      <div class="top">${ava(m,i)}<div><h4>${m.n}</h4><div class="tag">${m.top?"ТОП-мастер":m.t==="men"?"Мужской мастер":"Мастер-универсал"}</div></div></div>
+      <p>${m.d}</p>
+      <div class="rev"><span>★★★★★</span> ${m.r} ${plural(m.r)}</div>
+      <div class="near">Ближайшее время: <b style="color:var(--text)">${m.when}</b></div>
+      <div class="slots">${m.s.slice(0,4).map(t=>`<button onclick="openBooking({master:${i},time:'${t}',day:${m.when==='сегодня'?0:1}})">${t}</button>`).join("")}</div>
+    </div>`).join("");
+}
+document.querySelectorAll("#mFilter .tab").forEach(b=>b.onclick=()=>{document.querySelectorAll("#mFilter .tab").forEach(x=>x.classList.remove("active"));b.classList.add("active");mf=b.dataset.f;renderMasters()});
+renderMasters();
+
+/* booking */
+let B={};
+const DAYS=(()=>{const r=[],w=["вс","пн","вт","ср","чт","пт","сб"],mo=["янв","фев","мар","апр","мая","июн","июл","авг","сен","окт","ноя","дек"];for(let k=0;k<7;k++){const d=new Date();d.setDate(d.getDate()+k);r.push({l:k===0?"Сегодня":k===1?"Завтра":w[d.getDay()],s:d.getDate()+" "+mo[d.getMonth()]})}return r})();
+const TIMES=["9:15","9:30","10:00","10:45","11:30","12:15","13:00","14:00","15:30","17:00","18:45","20:45"];
+
+function openBooking(o={}){
+  B={branch:o.branch??0,cat:o.cat,svc:o.svc,master:o.master,day:o.day??0,time:o.time};
+  if(B.cat!==undefined&&B.svc!==undefined) B.service=SERVICES[B.cat][B.svc];
+  step(B.service?(B.master!==undefined?(B.time?4:3):2):1);
+  document.getElementById("modal").classList.add("open");document.body.style.overflow="hidden";
+}
+function closeBooking(){document.getElementById("modal").classList.remove("open");document.body.style.overflow=""}
+function setSteps(n){document.querySelectorAll("#steps i").forEach((x,k)=>x.classList.toggle("on",k<n))}
+const ycNote=`<span class="yc">Демо-форма. Сейчас запись работает в <a href="${YC}" target="_blank" rel="noopener">yclients салона</a> — на рабочем сайте эта форма будет связана с ним.</span>`;
+
+function step(n){
+  setSteps(n);const body=document.getElementById("stBody"),t=document.getElementById("stTitle");
+  if(n===1){
+    t.textContent="Выберите услугу";
+    body.innerHTML=`<div style="display:flex;gap:8px;margin-bottom:14px">${BRANCHES.map((b,k)=>`<button class="tab ${B.branch===k?'active':''}" onclick="B.branch=${k};step(1)">${b}</button>`).join("")}</div>`+
+      Object.entries(SERVICES).map(([c,l])=>`<div style="color:var(--muted);font-size:13px;margin:16px 0 8px">${c}</div>`+l.map((s,j)=>`<button class="opt" onclick="B.cat='${c}';B.svc=${j};B.service=SERVICES['${c}'][${j}];step(${B.master!==undefined?(B.time?4:3):2})"><div>${s.n}<small>${s.d} мин</small></div><span class="r">${B.branch===1&&c==='Мужские стрижки'&&j===0?'550':s.p} ₽</span></button>`).join("")).join("")+ycNote;
+  }
+  if(n===2){
+    t.textContent="Выберите мастера";
+    body.innerHTML=`<button class="opt" onclick="B.master=-1;step(3)"><div class="ava" style="background:#333">?</div><div>Любой свободный мастер<small>Подберём ближайшее время</small></div></button>`+
+      MASTERS.map((m,i)=>`<button class="opt" onclick="B.master=${i};step(3)">${ava(m,i)}<div>${m.n}<small>★ 5.0 · ${m.r} ${plural(m.r)}</small></div></button>`).join("")+`<button class="back" onclick="step(1)">← Назад</button>`;
+  }
+  if(n===3){
+    t.textContent="Дата и время";
+    body.innerHTML=`<div class="days">${DAYS.map((d,k)=>`<button class="day ${B.day===k?'sel':''}" onclick="B.day=${k};step(3)">${d.l}<small>${d.s}</small></button>`).join("")}</div>
+      <div class="times">${TIMES.filter((x,k)=>(k+B.day)%3!==1).map(x=>`<button class="${B.time===x?'sel':''}" onclick="B.time='${x}';step(4)">${x}</button>`).join("")}</div><button class="back" onclick="step(2)">← Назад</button>`;
+  }
+  if(n===4){
+    t.textContent="Ваши данные";
+    const m=B.master>=0&&B.master!==undefined?MASTERS[B.master].n:"Любой мастер";
+    const price=B.branch===1&&B.cat==="Мужские стрижки"&&B.svc===0?550:B.service.p;
+    body.innerHTML=`<div class="summary"><div><span>Филиал</span>${BRANCHES[B.branch]}</div><div><span>Услуга</span>${B.service.n}</div><div><span>Мастер</span>${m}</div><div><span>Когда</span>${DAYS[B.day].l}, ${B.time}</div><div><span>Стоимость</span><b>${price} ₽</b></div></div>
+      <input class="field" placeholder="Ваше имя" id="fn"><input class="field" placeholder="+7 (___) ___-__-__" type="tel" id="fp">
+      <button class="btn btn-primary" onclick="finish()">Подтвердить запись</button><button class="back" onclick="step(3)">← Назад</button>`+ycNote;
+  }
+}
+function finish(){
+  setSteps(4);document.getElementById("stTitle").textContent="Готово";
+  document.getElementById("stBody").innerHTML=`<div class="done"><div class="ok">✅</div><h3 class="serif" style="font-size:30px;margin:10px 0">Вы записаны!</h3><p style="color:var(--muted)">${DAYS[B.day].l}, ${B.time} · ${BRANCHES[B.branch]}<br>Напомним о визите за 2 часа.</p><button class="btn btn-primary" onclick="closeBooking()">Отлично</button><a class="btn btn-ghost" style="width:100%;margin-top:10px" href="${YC}" target="_blank" rel="noopener">Открыть реальную запись в yclients</a><p style="font-size:12px;color:var(--muted);margin-top:14px">Это демонстрация — настоящая запись не создана.</p></div>`;
+}
+function toast(t){const e=document.getElementById("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),2500)}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeBooking()});
+</script>
+</body>
+</html>
