@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Авто из Китая — каталог · демо</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f4f5f7;--card:#fff;--ink:#111418;--muted:#6b7280;--line:#e5e7eb;--acc:#e11d2e;--acc2:#ff3b4a;--dark:#0e1116;--r:18px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit}
+.wrap{max-width:1200px;margin:0 auto;padding:0 20px}
+.h{font-family:Unbounded,sans-serif;letter-spacing:-.01em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:12px;padding:14px 22px;font-weight:600;font-size:15px;cursor:pointer;transition:.15s}
+.btn-acc{background:var(--acc);color:#fff}.btn-acc:hover{background:var(--acc2)}
+.btn-ghost{background:#fff;border:1px solid var(--line);color:var(--ink)}
+.btn-dark{background:var(--dark);color:#fff}
+
+header{background:var(--dark);color:#fff;position:sticky;top:0;z-index:30}
+.nav{display:flex;align-items:center;justify-content:space-between;height:66px;gap:16px}
+.logo{font-family:Unbounded;font-weight:700;font-size:18px}.logo span{color:var(--acc2)}
+.nav nav{display:flex;gap:26px;font-size:14px;color:#b6bcc6}
+.nav nav a{cursor:pointer}.nav nav a:hover,.nav nav a.on{color:#fff}
+.adm-btn{background:#1f242c;color:#fff;border:1px solid #2d333d;padding:9px 14px;border-radius:10px;font-size:13px;cursor:pointer}
+@media(max-width:760px){.nav nav{display:none}}
+
+.hero{background:radial-gradient(800px 400px at 90% 0%,rgba(225,29,46,.35),transparent 60%),var(--dark);color:#fff;padding:60px 0 70px}
+.hero h1{font-size:clamp(30px,5.5vw,56px);line-height:1.08;max-width:760px;margin-bottom:18px}
+.hero p{color:#b6bcc6;font-size:17px;max-width:560px;margin-bottom:28px}
+.hero .row{display:flex;gap:12px;flex-wrap:wrap}
+.adv{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:44px}
+.adv div{background:#171b22;border:1px solid #232831;border-radius:14px;padding:16px}
+.adv b{display:block;font-family:Unbounded;font-size:22px;color:#fff}
+.adv span{font-size:13px;color:#9aa1ab}
+@media(max-width:760px){.adv{grid-template-columns:1fr 1fr}}
+
+section{padding:56px 0}
+.sec-h{display:flex;justify-content:space-between;align-items:end;gap:16px;margin-bottom:24px;flex-wrap:wrap}
+.sec-h h2{font-size:clamp(24px,3.5vw,34px)}
+.crumbs{font-size:14px;color:var(--muted);margin-bottom:10px}.crumbs a{cursor:pointer;color:var(--acc)}
+
+.brands{display:grid;grid-template-columns:repeat(6,1fr);gap:12px}
+.brand{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:20px 12px;text-align:center;cursor:pointer;transition:.15s}
+.brand:hover{border-color:var(--acc);transform:translateY(-2px)}
+.brand .bl{width:54px;height:54px;border-radius:50%;margin:0 auto 10px;display:grid;place-items:center;color:#fff;font-family:Unbounded;font-weight:700;font-size:15px}
+.brand b{display:block;font-size:15px}.brand small{color:var(--muted);font-size:12px}
+@media(max-width:900px){.brands{grid-template-columns:repeat(3,1fr)}}
+
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:20px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 16px;font-size:14px;cursor:pointer;font-weight:500}
+.chip.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+select.chip{appearance:none;padding-right:30px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23666'/%3E%3C/svg%3E") no-repeat right 12px center}
+
+.cars{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.car{background:var(--card);border:1px solid var(--line);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;transition:.15s}
+.car:hover{box-shadow:0 18px 40px rgba(17,20,24,.08)}
+.car .img{height:180px;display:grid;place-items:center;position:relative}
+.car .img svg{width:78%}
+.car .badge{position:absolute;left:12px;top:12px;background:#fff;border-radius:8px;padding:4px 9px;font-size:12px;font-weight:600}
+.car .badge.hot{background:var(--acc);color:#fff}
+.car .bd{padding:18px;display:flex;flex-direction:column;flex:1}
+.car h3{font-size:18px;margin-bottom:4px}
+.car .spec{font-size:13px;color:var(--muted);margin-bottom:14px}
+.car .price{font-family:Unbounded;font-size:20px;margin-bottom:2px}
+.car .pn{font-size:12px;color:var(--muted);margin-bottom:16px}
+.car .acts{display:flex;gap:8px;margin-top:auto}.car .acts .btn{flex:1;padding:12px}
+@media(max-width:900px){.cars{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.cars{grid-template-columns:1fr}}
+.empty{background:#fff;border:1px dashed var(--line);border-radius:var(--r);padding:40px;text-align:center;color:var(--muted)}
+
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.steps div{background:#fff;border:1px solid var(--line);border-radius:var(--r);padding:20px}
+.steps i{font-style:normal;font-family:Unbounded;color:var(--acc);font-size:22px;display:block;margin-bottom:8px}
+.steps h4{margin-bottom:4px}.steps p{font-size:14px;color:var(--muted)}
+@media(max-width:760px){.steps{grid-template-columns:1fr 1fr}}
+
+.lead{background:var(--dark);color:#fff;border-radius:24px;padding:40px;display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:center}
+.lead p{color:#b6bcc6;margin-top:10px}
+.lead form{display:flex;flex-direction:column;gap:10px}
+.inp{width:100%;border:1px solid var(--line);background:#fff;border-radius:12px;padding:14px;font-size:15px;font-family:inherit;color:var(--ink)}
+@media(max-width:760px){.lead{grid-template-columns:1fr;padding:28px}}
+footer{padding:30px 0;color:var(--muted);font-size:13px;text-align:center}
+
+/* modal */
+.modal{position:fixed;inset:0;background:rgba(10,12,16,.6);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+.modal.open{display:flex}
+.box{background:#fff;border-radius:22px;max-width:760px;width:100%;max-height:92vh;overflow:auto}
+.box .top{display:flex;justify-content:space-between;align-items:center;padding:18px 22px;border-bottom:1px solid var(--line)}
+.box .top h3{font-size:18px}
+.x{background:var(--bg);border:0;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:16px}
+.box .in{padding:22px}
+.det{display:grid;grid-template-columns:1.1fr 1fr;gap:22px}
+.det .img{border-radius:16px;height:240px;display:grid;place-items:center}
+.det .img svg{width:85%}
+.tbl{width:100%;font-size:14px;border-collapse:collapse;margin:12px 0 18px}
+.tbl td{padding:8px 0;border-bottom:1px solid var(--line)}.tbl td:last-child{text-align:right;font-weight:600}
+@media(max-width:640px){.det{grid-template-columns:1fr}}
+
+/* admin */
+.adm{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.adm label{font-size:12px;color:var(--muted);display:block;margin-bottom:4px}
+.adm .full{grid-column:1/-1}
+.alist{margin-top:22px;border-top:1px solid var(--line)}
+.arow{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--line);font-size:14px}
+.arow .sw{width:34px;height:34px;border-radius:8px;flex:none}
+.arow .del{margin-left:auto;background:#fee2e2;color:#b91c1c;border:0;border-radius:8px;padding:7px 12px;cursor:pointer;font-weight:600;font-size:13px}
+.tip{background:#fff7e6;border:1px solid #fde1a8;color:#7a5a14;border-radius:12px;padding:12px 14px;font-size:13px;margin-bottom:16px}
+.toast{position:fixed;left:50%;bottom:22px;transform:translateX(-50%) translateY(120px);background:var(--ink);color:#fff;padding:13px 18px;border-radius:12px;font-size:14px;transition:.3s;z-index:200}
+.toast.show{transform:translateX(-50%) translateY(0)}
+</style>
+</head>
+<body>
+<header><div class="wrap nav">
+  <a class="logo" onclick="go('home')">CHINA<span>AUTO</span></a>
+  <nav><a onclick="go('home')">Главная</a><a onclick="go('catalog')">Каталог</a><a href="#how">Как мы работаем</a><a href="#lead">Контакты</a></nav>
+  <button class="adm-btn" onclick="openAdmin()">⚙ Админка</button>
+</div></header>
+
+<div id="home">
+  <div class="hero"><div class="wrap">
+    <h1 class="h">Авто из Китая под ключ — с ценой до рубля</h1>
+    <p>Подберём, проверим и привезём автомобиль. Цена в каталоге уже с доставкой, растаможкой и утильсбором.</p>
+    <div class="row"><button class="btn btn-acc" onclick="go('catalog')">Открыть каталог</button><a class="btn btn-ghost" href="#lead">Получить подбор</a></div>
+    <div class="adv"><div><b>от 30 дней</b><span>срок доставки</span></div><div><b>0 ₽</b><span>скрытых платежей</span></div><div><b>10+</b><span>марок в каталоге</span></div><div><b>100%</b><span>проверка перед отправкой</span></div></div>
+  </div></div>
+  <section><div class="wrap">
+    <div class="sec-h"><h2 class="h">Выберите марку</h2><a class="chip" onclick="go('catalog')">Все модели →</a></div>
+    <div class="brands" id="brands"></div>
+  </div></section>
+  <section style="padding-top:0"><div class="wrap">
+    <div class="sec-h"><h2 class="h">Хиты продаж</h2></div>
+    <div class="cars" id="hits"></div>
+  </div></section>
+</div>
+
+<div id="catalog" style="display:none"><section><div class="wrap">
+  <div class="crumbs"><a onclick="go('home')">Главная</a> / Каталог <span id="crB"></span></div>
+  <div class="sec-h"><h2 class="h" id="catTitle">Каталог</h2><span style="color:var(--muted);font-size:14px" id="cnt"></span></div>
+  <div class="filters" id="filters"></div>
+  <div class="cars" id="list"></div>
+</div></section></div>
+
+<section id="how"><div class="wrap">
+  <div class="sec-h"><h2 class="h">Как мы работаем</h2></div>
+  <div class="steps">
+    <div><i>01</i><h4>Подбор</h4><p>Выбираете модель в каталоге или оставляете заявку.</p></div>
+    <div><i>02</i><h4>Договор</h4><p>Фиксируем цену и сроки, вносите предоплату.</p></div>
+    <div><i>03</i><h4>Доставка</h4><p>Выкуп, проверка, отправка и растаможка.</p></div>
+    <div><i>04</i><h4>Получение</h4><p>Забираете авто с документами в вашем городе.</p></div>
+  </div>
+</div></section>
+
+<section id="lead" style="padding-top:0"><div class="wrap"><div class="lead">
+  <div><h2 class="h" style="font-size:28px">Не нашли модель?</h2><p>Оставьте заявку — подберём под ваш бюджет и пришлём расчёт за 15 минут.</p></div>
+  <form onsubmit="event.preventDefault();this.reset();toast('Заявка отправлена (демо)')">
+    <input class="inp" placeholder="Имя" required><input class="inp" type="tel" placeholder="+7 (___) ___-__-__" required>
+    <input class="inp" placeholder="Какая модель интересует?"><button class="btn btn-acc">Получить расчёт</button>
+  </form>
+</div></div></section>
+<footer>Демо-версия сайта-каталога · цены и модели условные</footer>
+
+<div class="modal" id="m" onclick="if(event.target===this)closeM()"><div class="box"><div class="top"><h3 id="mT"></h3><button class="x" onclick="closeM()">✕</button></div><div class="in" id="mB"></div></div></div>
+<div class="toast" id="toast"></div>
+
+<script>
+const BRANDS={"Geely":"#1f4e9c","Chery":"#b3122b","Haval":"#0f0f10","Changan":"#1c5fb8","Li Auto":"#2b2b2b","Zeekr":"#3a3a3a","BYD":"#c8102e","Exeed":"#5a4632","Tank":"#4b5320","Omoda":"#8a8f98"};
+const DEFAULT=[
+ {b:"Geely",m:"Monjaro",y:2025,t:"Кроссовер",e:"2.0T бензин, 238 л.с.",p:3890000,hot:1},
+ {b:"Geely",m:"Coolray",y:2025,t:"Кроссовер",e:"1.5T бензин, 177 л.с.",p:2190000},
+ {b:"Chery",m:"Tiggo 7 Pro Max",y:2025,t:"Кроссовер",e:"1.6T бензин, 186 л.с.",p:2550000},
+ {b:"Chery",m:"Tiggo 8 Pro Max",y:2025,t:"Кроссовер",e:"2.0T бензин, 249 л.с.",p:3290000},
+ {b:"Haval",m:"Jolion",y:2025,t:"Кроссовер",e:"1.5T бензин, 150 л.с.",p:2090000,hot:1},
+ {b:"Haval",m:"H6",y:2025,t:"Кроссовер",e:"1.5T гибрид, 243 л.с.",p:3150000},
+ {b:"Changan",m:"UNI-K",y:2025,t:"Кроссовер",e:"2.0T бензин, 233 л.с.",p:3490000},
+ {b:"Li Auto",m:"L7",y:2025,t:"Кроссовер",e:"EREV гибрид, 449 л.с.",p:5490000,hot:1},
+ {b:"Li Auto",m:"L9",y:2025,t:"Кроссовер",e:"EREV гибрид, 449 л.с.",p:6790000},
+ {b:"Zeekr",m:"001",y:2025,t:"Лифтбек",e:"Электро, 544 л.с.",p:5190000},
+ {b:"BYD",m:"Song Plus",y:2025,t:"Кроссовер",e:"DM-i гибрид, 218 л.с.",p:3050000},
+ {b:"Exeed",m:"RX",y:2025,t:"Кроссовер",e:"2.0T бензин, 249 л.с.",p:4190000},
+ {b:"Tank",m:"300",y:2025,t:"Внедорожник",e:"2.0T бензин, 220 л.с.",p:4590000},
+ {b:"Omoda",m:"C5",y:2025,t:"Кроссовер",e:"1.5T бензин, 147 л.с.",p:1990000},
+];
+let CARS=JSON.parse(localStorage.getItem("cars")||"null")||DEFAULT;
+const save=()=>localStorage.setItem("cars",JSON.stringify(CARS));
+const fmt=n=>n.toLocaleString("ru-RU")+" ₽";
+const carSvg=c=>`<svg viewBox="0 0 300 120"><ellipse cx="150" cy="108" rx="130" ry="8" fill="rgba(0,0,0,.18)"/><path d="M20 82 Q22 60 60 56 L95 34 Q110 26 135 26 L190 26 Q215 27 232 44 L250 58 Q282 62 284 82 L284 92 L20 92Z" fill="${c}"/><path d="M104 40 Q112 33 130 33 L150 33 L150 56 L84 56Z M158 33 L188 33 Q208 34 222 50 L226 56 L158 56Z" fill="rgba(255,255,255,.55)"/><circle cx="75" cy="92" r="17" fill="#15171b"/><circle cx="75" cy="92" r="7" fill="#9aa0a8"/><circle cx="228" cy="92" r="17" fill="#15171b"/><circle cx="228" cy="92" r="7" fill="#9aa0a8"/></svg>`;
+const bg=c=>`linear-gradient(160deg,#f7f8fa,#e3e6eb)`;
+
+function card(c,i){return `<div class="car"><div class="img" style="background:${bg()}">${c.hot?'<span class="badge hot">Хит</span>':`<span class="badge">${c.y}</span>`}${carSvg(BRANDS[c.b]||"#555")}</div>
+ <div class="bd"><h3>${c.b} ${c.m}</h3><div class="spec">${c.t} · ${c.e}</div><div class="price">${fmt(c.p)}</div><div class="pn">под ключ, с растаможкой</div>
+ <div class="acts"><button class="btn btn-ghost" onclick="detail(${i})">Подробнее</button><button class="btn btn-acc" onclick="order(${i})">Заявка</button></div></div></div>`}
+
+function renderHome(){
+  document.getElementById("brands").innerHTML=Object.keys(BRANDS).map(b=>{const n=CARS.filter(c=>c.b===b).length;return `<div class="brand" onclick="go('catalog','${b}')"><div class="bl" style="background:${BRANDS[b]}">${b.slice(0,2).toUpperCase()}</div><b>${b}</b><small>${n} ${n===1?'модель':n>1&&n<5?'модели':'моделей'}</small></div>`}).join("");
+  document.getElementById("hits").innerHTML=CARS.map((c,i)=>c.hot?card(c,i):"").join("");
+}
+let F={b:"",t:"",s:""};
+function renderCat(){
+  const types=[...new Set(CARS.map(c=>c.t))];
+  document.getElementById("filters").innerHTML=`<button class="chip ${!F.b?'on':''}" onclick="F.b='';renderCat()">Все марки</button>`+Object.keys(BRANDS).map(b=>`<button class="chip ${F.b===b?'on':''}" onclick="F.b='${b}';renderCat()">${b}</button>`).join("")+
+   `<select class="chip" onchange="F.t=this.value;renderCat()"><option value="">Любой кузов</option>${types.map(t=>`<option ${F.t===t?'selected':''}>${t}</option>`).join("")}</select>
+    <select class="chip" onchange="F.s=this.value;renderCat()"><option value="">Сортировка</option><option value="a" ${F.s==='a'?'selected':''}>Сначала дешевле</option><option value="d" ${F.s==='d'?'selected':''}>Сначала дороже</option></select>`;
+  let l=CARS.map((c,i)=>({c,i})).filter(({c})=>(!F.b||c.b===F.b)&&(!F.t||c.t===F.t));
+  if(F.s)l.sort((a,b)=>F.s==='a'?a.c.p-b.c.p:b.c.p-a.c.p);
+  document.getElementById("catTitle").textContent=F.b?`Автомобили ${F.b}`:"Все автомобили";
+  document.getElementById("crB").textContent=F.b?` / ${F.b}`:"";
+  document.getElementById("cnt").textContent=`${l.length} моделей`;
+  document.getElementById("list").innerHTML=l.length?l.map(({c,i})=>card(c,i)).join(""):`<div class="empty" style="grid-column:1/-1">Моделей этой марки пока нет — добавьте их в админке</div>`;
+}
+function go(p,b){document.getElementById("home").style.display=p==="home"?"":"none";document.getElementById("catalog").style.display=p==="catalog"?"":"none";if(p==="catalog"){F.b=b||"";renderCat()}else renderHome();scrollTo(0,0)}
+
+function openM(t,h){document.getElementById("mT").textContent=t;document.getElementById("mB").innerHTML=h;document.getElementById("m").classList.add("open")}
+function closeM(){document.getElementById("m").classList.remove("open")}
+function detail(i){const c=CARS[i];openM(`${c.b} ${c.m}`,`<div class="det"><div class="img" style="background:${bg()}">${carSvg(BRANDS[c.b]||"#555")}</div><div>
+ <div class="price h" style="font-size:24px">${fmt(c.p)}</div><div style="color:var(--muted);font-size:13px">под ключ в вашем городе</div>
+ <table class="tbl"><tr><td>Год</td><td>${c.y}</td></tr><tr><td>Кузов</td><td>${c.t}</td></tr><tr><td>Двигатель</td><td>${c.e}</td></tr><tr><td>Срок доставки</td><td>30–45 дней</td></tr></table>
+ <button class="btn btn-acc" style="width:100%" onclick="order(${i})">Оставить заявку</button></div></div>`)}
+function order(i){const c=CARS[i];openM("Заявка на расчёт",`<p style="margin-bottom:14px">${c.b} ${c.m} · <b>${fmt(c.p)}</b></p><form onsubmit="event.preventDefault();closeM();toast('Заявка отправлена (демо)')" style="display:flex;flex-direction:column;gap:10px"><input class="inp" placeholder="Имя" required><input class="inp" type="tel" placeholder="+7 (___) ___-__-__" required><button class="btn btn-acc">Отправить</button></form>`)}
+
+function openAdmin(){
+  openM("Админка · управление каталогом",`<div class="tip">Так менеджер сам добавляет и убирает модели — без программиста. Модель сразу появляется на странице своей марки.</div>
+  <form class="adm" onsubmit="event.preventDefault();addCar(this)">
+   <div><label>Марка</label><select class="inp" name="b">${Object.keys(BRANDS).map(b=>`<option>${b}</option>`).join("")}</select></div>
+   <div><label>Модель</label><input class="inp" name="m" required placeholder="напр. Atlas"></div>
+   <div><label>Цена под ключ, ₽</label><input class="inp" name="p" type="number" required placeholder="2500000"></div>
+   <div><label>Кузов</label><select class="inp" name="t"><option>Кроссовер</option><option>Седан</option><option>Внедорожник</option><option>Лифтбек</option><option>Минивэн</option></select></div>
+   <div class="full"><label>Двигатель</label><input class="inp" name="e" placeholder="1.5T бензин, 150 л.с."></div>
+   <label class="full" style="display:flex;gap:8px;align-items:center;font-size:14px;color:var(--ink)"><input type="checkbox" name="hot"> Показывать в «Хитах продаж»</label>
+   <button class="btn btn-dark full">+ Добавить модель</button></form>
+  <div class="alist">${CARS.map((c,i)=>`<div class="arow"><div class="sw" style="background:${BRANDS[c.b]}"></div><div><b>${c.b} ${c.m}</b><br><span style="color:var(--muted)">${fmt(c.p)}</span></div><button class="del" onclick="delCar(${i})">Удалить</button></div>`).join("")}</div>
+  <button class="btn btn-ghost" style="width:100%;margin-top:14px" onclick="resetCars()">Сбросить демо-данные</button>`)}
+function addCar(f){const d=new FormData(f);CARS.unshift({b:d.get("b"),m:d.get("m"),y:2025,t:d.get("t"),e:d.get("e")||"—",p:+d.get("p"),hot:d.get("hot")?1:0});save();refresh();openAdmin();toast("Модель добавлена")}
+function delCar(i){CARS.splice(i,1);save();refresh();openAdmin();toast("Модель удалена")}
+function resetCars(){CARS=DEFAULT.slice();save();refresh();openAdmin()}
+function refresh(){renderHome();if(document.getElementById("catalog").style.display!=="none")renderCat()}
+function toast(t){const e=document.getElementById("toast");e.textContent=t;e.classList.add("show");setTimeout(()=>e.classList.remove("show"),2200)}
+document.addEventListener("keydown",e=>{if(e.key==="Escape")closeM()});
+renderHome();
+</script>
+</body>
+</html>
