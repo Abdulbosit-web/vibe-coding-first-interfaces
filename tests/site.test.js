@@ -5,56 +5,17 @@
 const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
 const path = require('node:path');
+const fs = require('node:fs');
 
 const file = rel => 'file://' + path.resolve(__dirname, '..', rel);
 
-// One entry per site: facts confirmed from its 2GIS card and YCLIENTS page.
-const SITES = [{
-  page: file('index.html'),
-  name: /Ballery/,
-  mapText: /Байкальская улица, 346\/1/,
-  phoneHref: 'tel:+79087777140',
-  bookingUrl: 'https://n726797.yclients.com/',
-  address: 'Байкальская улица, 346/1',
-  hours: '9:00–21:00',
-  prices: {
-    'Маникюр + укрепление гелем (без цвета, базовый гель под френч)': '2 850 – 3 350 ₽',
-    'Маникюр + укрепление гелем + цвет или френч': '3 000 – 3 550 ₽',
-    'Маникюр + укрепление гелем + цвет и френч': '3 150 – 3 700 ₽',
-    'Достраивание всех углов / сложная коррекция': '300 ₽',
-    'Наращивание ногтей без цвета, без френча (на форму)': '3 950 – 4 100 ₽',
-    'Наращивание ногтей: дизайн (френч) или выкрас': '4 000 – 4 150 ₽',
-  },
-}, {
-  page: file('ninesix/index.html'),
-  name: /Ninesix/,
-  mapText: /Красноказачья улица, 74\/1/,
-  phoneHref: 'tel:+79500679696',
-  bookingUrl: 'https://n1854009.yclients.com/',
-  address: 'Красноказачья улица, 74/1',
-  hours: '9:00–21:00',
-  prices: {
-    'Комбинированный маникюр, топ-мастер': '1 500 ₽',
-    'Мужской маникюр, топ-мастер': '1 500 ₽',
-    'Мужской маникюр, профи-мастер': '2 000 ₽',
-    'Система восстановления и укрепления повреждённых ногтей, топ-мастер': '2 500 ₽',
-  },
-}, {
-  page: file('beauty-vibe/index.html'),
-  name: /Beauty Vibe/,
-  mapText: /Краснодар, Восточно-Кругликовская улица, 22\/3/,
-  phoneHref: null, // only part of the number is visible on DIKIDI: no call links
-  bookingUrl: 'https://dikidi.net/1903464',
-  address: 'Восточно-Кругликовская улица, 22/3',
-  hours: null, // working hours are not confirmed
-  prices: {
-    'Smart-педикюр: обработка всей стопы + покрытие': 'от 2 500 ₽',
-    'Smart-педикюр: обработка всей стопы, без покрытия': 'от 2 000 ₽',
-    'Втирка': 'от 300 ₽',
-    'Дизайн: омбре / градиент': '500 ₽',
-    'Дизайн: стемпинг': '300 ₽',
-  },
-}];
+// Each file in tests/sites/ describes one site page: the facts confirmed
+// from its listing (2GIS, YCLIENTS, DIKIDI). Every test runs on every site.
+const SITES_DIR = path.join(__dirname, 'sites');
+const SITES = fs.readdirSync(SITES_DIR).filter(f => f.endsWith('.js')).sort()
+  .map(f => require(path.join(SITES_DIR, f)))
+  .map(s => ({ ...s, page: file(s.page) }));
+if (!SITES.length) throw new Error('no sites in tests/sites');
 
 const tests = [];
 let FACTS, PAGE; // set per site by the runner below
