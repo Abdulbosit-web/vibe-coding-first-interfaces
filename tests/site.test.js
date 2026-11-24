@@ -1,4 +1,4 @@
-// Behaviour tests for index.html, run with: node tests/site.test.js
+// Behaviour tests for every site page, run with: node tests/site.test.js
 // They open the page the way a visitor does (phone and desktop) and check
 // what that visitor sees and can click. External hosts (fonts, map) are
 // blocked so the result does not depend on the network.
@@ -6,10 +6,13 @@ const { chromium } = require('playwright');
 const assert = require('node:assert/strict');
 const path = require('node:path');
 
-const PAGE = 'file://' + path.resolve(__dirname, '..', 'index.html');
+const file = rel => 'file://' + path.resolve(__dirname, '..', rel);
 
-// Facts confirmed from the 2GIS card and the YCLIENTS booking page.
-const FACTS = {
+// One entry per site: facts confirmed from its 2GIS card and YCLIENTS page.
+const SITES = [{
+  page: file('index.html'),
+  name: /Ballery/,
+  mapText: /Байкальская улица, 346\/1/,
   phoneHref: 'tel:+79087777140',
   bookingUrl: 'https://n726797.yclients.com/',
   address: 'Байкальская улица, 346/1',
@@ -22,9 +25,24 @@ const FACTS = {
     'Наращивание ногтей без цвета, без френча (на форму)': '3 950 – 4 100 ₽',
     'Наращивание ногтей: дизайн (френч) или выкрас': '4 000 – 4 150 ₽',
   },
-};
+}, {
+  page: file('ninesix/index.html'),
+  name: /Ninesix/,
+  mapText: /Красноказачья улица, 74\/1/,
+  phoneHref: 'tel:+79500679696',
+  bookingUrl: 'https://n1854009.yclients.com/',
+  address: 'Красноказачья улица, 74/1',
+  hours: '9:00–21:00',
+  prices: {
+    'Комбинированный маникюр, топ-мастер': '1 500 ₽',
+    'Мужской маникюр, топ-мастер': '1 500 ₽',
+    'Мужской маникюр, профи-мастер': '2 000 ₽',
+    'Система восстановления и укрепления повреждённых ногтей, топ-мастер': '2 500 ₽',
+  },
+}];
 
 const tests = [];
+let FACTS, PAGE; // set per site by the runner below
 const test = (name, fn) => tests.push({ name, fn });
 
 async function open(browser, viewport) {
@@ -42,10 +60,10 @@ const DESKTOP = { width: 1440, height: 900 };
 
 test('SEO: title, description, Open Graph, one h1', async b => {
   const { page } = await open(b, DESKTOP);
-  assert.match(await page.title(), /Ballery/);
+  assert.match(await page.title(), FACTS.name);
   const meta = n => page.getAttribute(`meta[${n}]`, 'content');
   assert.ok((await meta('name="description"')).length > 50);
-  assert.match(await meta('property="og:title"'), /Ballery/);
+  assert.match(await meta('property="og:title"'), FACTS.name);
   assert.ok(await meta('property="og:description"'));
   assert.equal(await page.locator('h1').count(), 1);
   assert.ok(await page.locator('h2').count() >= 5);
@@ -94,7 +112,7 @@ test('no filler text or placeholders', async b => {
 test('map and 2GIS route are present', async b => {
   const { page } = await open(b, DESKTOP);
   const src = await page.getAttribute('iframe[data-map]', 'src');
-  assert.match(decodeURIComponent(src), /Байкальская улица, 346\/1/);
+  assert.match(decodeURIComponent(src), FACTS.mapText);
   assert.match(await page.getAttribute('a[data-route]', 'href'), /^https:\/\/2gis\.ru\//);
 });
 
@@ -156,11 +174,16 @@ test('no script errors', async b => {
 (async () => {
   const browser = await chromium.launch();
   let failed = 0;
-  for (const t of tests) {
-    try { await t.fn(browser); console.log('ok   ', t.name); }
-    catch (e) { failed++; console.log('FAIL ', t.name, '\n      ', e.message.split('\n')[0]); }
+  for (const site of SITES) {
+    FACTS = site; PAGE = site.page;
+    console.log('\n' + path.relative(path.resolve(__dirname, '..'), new URL(PAGE).pathname));
+    for (const t of tests) {
+      try { await t.fn(browser); console.log('ok   ', t.name); }
+      catch (e) { failed++; console.log('FAIL ', t.name, '\n      ', e.message.split('\n')[0]); }
+    }
   }
   await browser.close();
-  console.log(`\n${tests.length - failed}/${tests.length} passed`);
+  const total = tests.length * SITES.length;
+  console.log(`\n${total - failed}/${total} passed`);
   process.exit(failed ? 1 : 0);
 })();
