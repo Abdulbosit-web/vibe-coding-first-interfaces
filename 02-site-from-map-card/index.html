@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Кофейня «Пример» — Кофейня, Город N</title>
+<meta name="description" content="Кофе, который варят без спешки, и выпечка из своей печи каждое утро">
+<meta property="og:title" content="Кофейня «Пример»">
+<meta property="og:description" content="Кофе, который варят без спешки, и выпечка из своей печи каждое утро">
+
+<meta name="theme-color" content="#7a5236">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LocalBusiness", "name": "Кофейня «Пример»", "address": "ул. Примерная, 1", "telephone": "+7 900 000-00-00", "openingHours": ["Пн–Пт 8:00–21:00", "Сб–Вс 9:00–22:00"], "hasMap": "https://yandex.ru/maps/"}</script>
+<style>
+  :root {
+    --accent: #7a5236;
+    --ink: #2b2622;
+    --muted: #6f665e;
+    --paper: #faf7f2;
+    --card: #ffffff;
+    --line: #e6dfd5;
+    --radius: 14px;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0; background: var(--paper); color: var(--ink);
+    font: 17px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    padding-bottom: 72px;
+  }
+  h1, h2 { font-family: Georgia, "Times New Roman", serif; font-weight: 600; line-height: 1.2; }
+  a { color: var(--accent); }
+  .demo { background: #fff3c4; color: #5c4a00; font-size: 14px; text-align: center; padding: 8px 16px; }
+
+  .hero {
+    min-height: 56vh; display: flex; align-items: flex-end;
+    padding: 48px 20px; background: var(--accent); color: #fff;
+  }
+  .hero.has-photo {
+    min-height: 78vh;
+    background: linear-gradient(to top, rgba(20,16,12,.78), rgba(20,16,12,.15) 65%), var(--hero) center/cover;
+  }
+  .hero-inner { max-width: 760px; margin: 0 auto; width: 100%; }
+  .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: 13px; opacity: .85; margin: 0 0 8px; }
+  .hero h1 { font-size: clamp(36px, 9vw, 64px); margin: 0 0 12px; }
+  .tagline { font-size: clamp(18px, 4.5vw, 22px); margin: 0 0 28px; max-width: 34ch; opacity: .95; }
+
+  .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    min-height: 50px; padding: 0 24px; border-radius: 999px;
+    font-weight: 600; text-decoration: none; transition: transform .15s ease, opacity .15s ease;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn-main { background: #fff; color: var(--accent); }
+  .btn-ghost { border: 1.5px solid currentColor; color: inherit; }
+  .contacts .btn-main { background: var(--accent); color: #fff; }
+  .contacts .btn-ghost { color: var(--accent); }
+
+  main { max-width: 760px; margin: 0 auto; padding: 0 20px; }
+  .block { padding: 56px 0 8px; }
+  .block h2 { font-size: clamp(26px, 6vw, 34px); margin: 0 0 24px; }
+
+  .menu { list-style: none; margin: 0; padding: 0; }
+  .menu li { padding: 12px 0; border-bottom: 1px solid var(--line); }
+  .item-line { display: flex; align-items: baseline; gap: 8px; }
+  .item-name { font-weight: 600; }
+  .dots { flex: 1; border-bottom: 1.5px dotted #c9bfb2; transform: translateY(-4px); min-width: 16px; }
+  .item-price { white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .item-note { margin: 2px 0 0; color: var(--muted); font-size: 15px; }
+
+  .gallery { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .gallery img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: var(--radius); }
+
+  .reviews { display: grid; gap: 14px; }
+  .review { margin: 0; background: var(--card); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px; }
+  .review blockquote { margin: 0 0 10px; }
+  .review figcaption { font-weight: 600; font-size: 15px; }
+  .review figcaption span { font-weight: 400; color: var(--muted); }
+
+  .hours { border-collapse: collapse; margin-bottom: 16px; }
+  .hours th { text-align: left; font-weight: 600; padding: 4px 24px 4px 0; }
+  .hours td { font-variant-numeric: tabular-nums; }
+  .address { font-size: 18px; margin: 0 0 24px; }
+
+  footer { max-width: 760px; margin: 56px auto 0; padding: 24px 20px; color: var(--muted); font-size: 14px; border-top: 1px solid var(--line); }
+
+  .mobile-bar {
+    position: fixed; left: 0; right: 0; bottom: 0; display: flex;
+    background: rgba(255,255,255,.96); border-top: 1px solid var(--line);
+    backdrop-filter: blur(8px); padding-bottom: env(safe-area-inset-bottom);
+  }
+  .mobile-bar a { flex: 1; text-align: center; padding: 14px 4px; font-weight: 600; font-size: 15px; text-decoration: none; color: var(--ink); }
+  .mobile-bar a + a { border-left: 1px solid var(--line); }
+
+  @media (min-width: 720px) {
+    body { padding-bottom: 0; }
+    .mobile-bar { display: none; }
+    .gallery { grid-template-columns: repeat(3, 1fr); }
+    .reviews { grid-template-columns: repeat(2, 1fr); }
+    .hero { padding: 72px 20px; }
+  }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+</style>
+</head>
+<body>
+<div class="demo">Демо-шаблон: все данные на этой странице вымышлены. Замените их в данные.txt и запустите build.py.</div>
+<header class="hero">
+  <div class="hero-inner">
+    <p class="eyebrow">Кофейня · Город N</p>
+    <h1>Кофейня «Пример»</h1>
+    <p class="tagline">Кофе, который варят без спешки, и выпечка из своей печи каждое утро</p>
+    <div class="actions"><a class="btn btn-main" href="tel:+79000000000">Позвонить</a><a class="btn btn-ghost" href="https://t.me/example_coffee" target="_blank" rel="noopener">Написать в Telegram</a></div>
+  </div>
+</header>
+<main>
+<section id="menu" class="block"><h2>Меню и цены</h2><ul class="menu"><li><div class="item-line"><span class="item-name">Эспрессо</span><span class="dots" aria-hidden="true"></span><span class="item-price">150 ₽</span></div></li><li><div class="item-line"><span class="item-name">Капучино</span><span class="dots" aria-hidden="true"></span><span class="item-price">250 ₽</span></div><p class="item-note">300 мл, молоко на выбор</p></li><li><div class="item-line"><span class="item-name">Раф ванильный</span><span class="dots" aria-hidden="true"></span><span class="item-price">290 ₽</span></div></li><li><div class="item-line"><span class="item-name">Круассан</span><span class="dots" aria-hidden="true"></span><span class="item-price">180 ₽</span></div><p class="item-note">печём каждое утро</p></li><li><div class="item-line"><span class="item-name">Сырники со сметаной</span><span class="dots" aria-hidden="true"></span><span class="item-price">320 ₽</span></div></li></ul></section><section id="reviews" class="block"><h2>Отзывы</h2><div class="reviews"><figure class="review"><blockquote>«Здесь будет настоящий отзыв из карточки на картах.»</blockquote><figcaption>Гость 1 · <span>пример отзыва, замените на настоящий</span></figcaption></figure><figure class="review"><blockquote>«Второй отзыв. Берите 3–5 самых живых и конкретных.»</blockquote><figcaption>Гость 2 · <span>пример отзыва, замените на настоящий</span></figcaption></figure><figure class="review"><blockquote>«Третий отзыв. Не правьте и не сокращайте смысл.»</blockquote><figcaption>Гость 3 · <span>пример отзыва, замените на настоящий</span></figcaption></figure></div></section><section id="contacts" class="block contacts"><h2>Часы работы и адрес</h2><table class="hours"><tr><th>Пн–Пт</th><td>8:00–21:00</td></tr><tr><th>Сб–Вс</th><td>9:00–22:00</td></tr></table><p class="address">ул. Примерная, 1</p><div class="actions"><a class="btn btn-main" href="https://yandex.ru/maps/" target="_blank" rel="noopener">Как добраться</a><a class="btn btn-main" href="tel:+79000000000">Позвонить</a><a class="btn btn-ghost" href="https://t.me/example_coffee" target="_blank" rel="noopener">Написать в Telegram</a></div></section>
+</main>
+<footer>Кофейня «Пример» · ул. Примерная, 1</footer>
+<nav class="mobile-bar"><a href="tel:+79000000000">📞 Позвонить</a><a href="https://yandex.ru/maps/" target="_blank" rel="noopener">📍 Маршрут</a><a href="https://t.me/example_coffee" target="_blank" rel="noopener">✈️ Telegram</a></nav>
+</body>
+</html>
