@@ -1,0 +1,15 @@
+# Автозапуск бота на сервере (Ubuntu/Debian). Инструкция — в README, раздел «На сервер».
+[Unit]
+Description=Telegram-бот записи клиентов
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=bot
+WorkingDirectory=/home/bot/01-booking-bot
+ExecStart=/home/bot/01-booking-bot/.venv/bin/python bot.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
